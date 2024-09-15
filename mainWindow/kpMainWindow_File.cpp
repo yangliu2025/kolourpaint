@@ -908,7 +908,10 @@ QUrl kpMainWindow::askForSaveURL (const QString &caption,
              saveOptionsWidget, &kpDocumentSaveOptionsWidget::setMimeType);
 #else
              saveOptionsWidget, [saveOptionsWidget](const KFileFilter &filter) {
-                 saveOptionsWidget->setMimeType(filter.mimePatterns().first());
+                 const QStringList patterns = filter.mimePatterns();
+                 if (!patterns.isEmpty()) {
+                     saveOptionsWidget->setMimeType(patterns.first());
+                 }
             });
 #endif
 
