@@ -337,7 +337,6 @@ add_executable(kolourpaint ${kolourpaint_SRCS})
 target_link_libraries(kolourpaint
     KF5::XmlGui
     KF5::KIOFileWidgets
-    KF5::TextWidgets
     KF5::Crash
     Qt5::PrintSupport
     kolourpaint_lgpl
