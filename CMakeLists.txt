@@ -12,6 +12,8 @@ set(QT_MIN_VERSION "5.15.2")
 set(KF_MIN_VERSION "5.90.0")
 set(KSANE_MIN_VERSION "21.12.1")
 
+option(BUILD_DOC "Whether to build the documentation" ON)
+
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -32,7 +34,6 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 )
 
 find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS
-    DocTools
     I18n
     GuiAddons
     WidgetsAddons
@@ -58,7 +59,13 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/kf5compat
 )
 
- 
+if(BUILD_DOC)
+    find_package(KF5DocTools ${KF_MIN_VERSION})
+    set_package_properties(KF5DocTools PROPERTIES
+        DESCRIPTION "Tools to generate documentation"
+        TYPE REQUIRED
+    )
+endif()
  
 ## Generate header with version number
 ecm_setup_version(${RELEASE_SERVICE_VERSION}
@@ -68,7 +75,6 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION}
 
 
 add_subdirectory( pics )
-add_subdirectory( doc )
 
 
 ########### next target ###############
@@ -365,7 +371,11 @@ endif()
 install(PROGRAMS org.kde.kolourpaint.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kolourpaint.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
+if(BUILD_DOC)
+    add_subdirectory(doc)
+    kdoctools_install(po)
+endif()
+
 ki18n_install(po)
-kdoctools_install(po)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
