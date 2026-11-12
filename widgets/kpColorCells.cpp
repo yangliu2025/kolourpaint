@@ -9,6 +9,7 @@
 
 #include "widgets/kpColorCells.h"
 
+#include "generic/kpModernLook.h"
 #include "imagelib/kpColor.h"
 #include "lgpl/generic/kpColorCollection.h"
 #include "widgets/kpDefaultColorCollection.h"
@@ -18,6 +19,8 @@
 
 #include <QColorDialog>
 #include <QContextMenuEvent>
+#include <QItemDelegate>
+#include <QPainter>
 #include <QScrollBar>
 
 //---------------------------------------------------------------------
@@ -65,6 +68,49 @@ static int TableCellHeight(const kpColorCollection &colorCol)
     }
 
     return ::TableDefaultHeight / 3;
+}
+
+//
+// kpColorCellDelegate
+//
+
+namespace
+{
+// Draws the cells as round swatches in the modern look.
+class kpColorCellDelegate : public QItemDelegate
+{
+public:
+    using QItemDelegate::QItemDelegate;
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    {
+        if (!kpModernLook::isActive()) {
+            QItemDelegate::paint(painter, option, index);
+            return;
+        }
+
+        // (kpColorCellsBase puts the color, over a checkerboard if it is
+        //  translucent, in the background brush; empty cells have none)
+        const QVariant background = index.data(Qt::BackgroundRole);
+        if (!background.canConvert<QBrush>()) {
+            return;
+        }
+
+        const qreal diameter = qMin(option.rect.width(), option.rect.height()) - 6;
+        QRectF circle(0, 0, diameter, diameter);
+        circle.moveCenter(QRectF(option.rect).center());
+
+        const bool hot = option.state & QStyle::State_MouseOver;
+
+        painter->save();
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setBrushOrigin(circle.topLeft().toPoint());
+        painter->setPen(QPen(hot ? option.palette.color(QPalette::Highlight) : kpModernLook::borderColor(option.palette), hot ? 2 : 1));
+        painter->setBrush(background.value<QBrush>());
+        painter->drawEllipse(circle.adjusted(0.5, 0.5, -0.5, -0.5));
+        painter->restore();
+    }
+};
 }
 
 //
@@ -148,6 +194,20 @@ kpColorCells::kpColorCells(QWidget *parent, Qt::Orientation o)
     connect(this, &kpColorCells::colorChanged, this, &kpColorCells::slotColorChanged);
 
     setColorCollection(DefaultColorCollection());
+
+    QAbstractItemDelegate *oldDelegate = itemDelegate();
+    setItemDelegate(new kpColorCellDelegate(this));
+    delete oldDelegate;
+
+    // (for the delegate's State_MouseOver)
+    viewport()->setAttribute(Qt::WA_Hover);
+
+    auto applyLook = [this] {
+        setShowGrid(!kpModernLook::isActive());
+        viewport()->update();
+    };
+    connect(kpModernLook::instance(), &kpModernLook::changed, this, applyLook);
+    applyLook();
 
     setWhatsThis(
         i18n("<qt>"

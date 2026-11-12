@@ -9,6 +9,7 @@
 
 #include "kpDualColorButton.h"
 
+#include "generic/kpModernLook.h"
 #include "views/kpView.h"
 
 #include "kpLogCategories.h"
@@ -20,6 +21,7 @@
 #include <QDrag>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <qdrawutil.h>
 
 //---------------------------------------------------------------------
@@ -35,6 +37,8 @@ kpDualColorButton::kpDualColorButton(QWidget *parent)
     m_color[1] = kpColor(255, 255, 255); // white
 
     setAcceptDrops(true);
+
+    connect(kpModernLook::instance(), &kpModernLook::changed, this, qOverload<>(&kpDualColorButton::update));
 }
 
 //---------------------------------------------------------------------
@@ -318,6 +322,11 @@ void kpDualColorButton::paintEvent(QPaintEvent *e)
     qCDebug(kpLogWidgets) << "kpDualColorButton::draw() rect=" << rect() << " contentsRect=" << contentsRect() << endl;
 #endif
 
+    if (kpModernLook::isActive()) {
+        paintModern();
+        return;
+    }
+
     // Draw frame first.
     QFrame::paintEvent(e);
 
@@ -381,6 +390,56 @@ void kpDualColorButton::paintEvent(QPaintEvent *e)
     }
 
     qDrawShadePanel(&painter, fgRect, palette(), false /*not sunken*/, 2 /*lineWidth*/, nullptr /*never fill*/);
+}
+
+//---------------------------------------------------------------------
+
+// protected
+void kpDualColorButton::paintModern()
+{
+    QPainter painter(this);
+    painter.translate(contentsRect().x(), contentsRect().y());
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const QPixmap swapPixmap = QStringLiteral(":/icons/colorbutton_swap_16x16");
+    const QColor ink = palette().color(isEnabled() ? QPalette::Active : QPalette::Disabled, QPalette::WindowText);
+    painter.drawPixmap(swapPixmapRect().topLeft(), kpModernLook::recolorInk(swapPixmap, ink));
+
+    // Background color first, so that the foreground color is on top.
+    for (int which : {1, 0}) {
+        const QRectF rect = QRectF(which == 0 ? foregroundRect() : backgroundRect()).adjusted(0.5, 0.5, -0.5, -0.5);
+        QPainterPath circle;
+        circle.addEllipse(rect);
+
+        // A ring of the window color separates the overlapping circles.
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(palette().color(QPalette::Window));
+        painter.drawEllipse(rect.adjusted(-2, -2, 2, 2));
+
+        if (!isEnabled()) {
+            painter.setBrush(palette().color(QPalette::Button));
+            painter.drawPath(circle);
+        } else if (m_color[which].isTransparent()) {
+            painter.save();
+            painter.setClipPath(circle);
+            painter.drawPixmap(rect.toAlignedRect(), QPixmap(QStringLiteral(":/icons/color_transparent_26x26")));
+            painter.restore();
+        } else {
+            const QColor color = m_color[which].toQColor();
+            if (color.alpha() < 255) {
+                painter.save();
+                painter.setClipPath(circle);
+                kpView::drawTransparentBackground(&painter, rect.toAlignedRect().topLeft(), rect.toAlignedRect(), true /*preview*/);
+                painter.restore();
+            }
+            painter.setBrush(color);
+            painter.drawPath(circle);
+        }
+
+        painter.setPen(QPen(kpModernLook::borderColor(palette()), 1));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawPath(circle);
+    }
 }
 
 #include "moc_kpDualColorButton.cpp"

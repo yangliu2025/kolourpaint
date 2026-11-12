@@ -62,6 +62,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
 
     void paintEvent(QPaintEvent *e) override;
+    void paintModern();
 
     QPoint m_dragStartPoint;
     kpColor m_color[2];
