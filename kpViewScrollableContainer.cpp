@@ -921,6 +921,12 @@ void kpViewScrollableContainer::updateGrips()
     m_rightGrip->setHidden(m_view == nullptr);
     m_bottomRightGrip->setHidden(m_view == nullptr);
 
+    // The canvas shadow lies outside of widget(), so moving or resizing
+    // widget() alone leaves the old shadow behind.
+    if (kpModernLook::isActive()) {
+        viewport()->update();
+    }
+
     recalculateStatusMessage();
 }
 
