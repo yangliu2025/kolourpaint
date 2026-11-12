@@ -1,3 +1,11 @@
+kolourpaint (4:24.02.2-0yl4) noble; urgency=medium
+
+  * In message boxes such as "The document has been modified", the
+    underlined letter alone now presses its button, e.g. C, D or S for
+    Cancel, Discard or Save, as Alt+letter already did.
+
+ -- Yang Liu <yangliu2005@mail.com>  Wed, 11 Nov 2026 22:59:17 -0800
+
 kolourpaint (4:24.02.2-0yl3) noble; urgency=medium
 
   * New modern look, on by default and switchable under Settings > Modern
