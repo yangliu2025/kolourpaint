@@ -15,6 +15,10 @@
 
 #include <climits>
 
+#include <QDir>
+#include <QIcon>
+#include <QPixmap>
+
 #include "kpLogCategories.h"
 #include <KActionCollection>
 #include <KLocalizedString>
@@ -79,7 +83,17 @@ void kpTool::initAction()
     d->action = ac->add<KToggleAction>(objectName());
     d->action->setText(text());
     d->action->setWhatsThis(d->description);
-    d->action->setIcon(QIcon::fromTheme(objectName()));
+    QIcon icon = QIcon::fromTheme(objectName());
+    if (icon.isNull()) {
+        // Icon themes don't have tools newer than themselves, and outside Plasma
+        // Qt doesn't look in our installed icon dir, so use the bundled copies.
+        const QDir bundled(QStringLiteral(":/icons/") + objectName());
+        const QFileInfoList files = bundled.entryInfoList(QDir::Files);
+        for (const QFileInfo &file : files) {
+            icon.addPixmap(QPixmap(file.filePath()));
+        }
+    }
+    d->action->setIcon(icon);
     ac->setDefaultShortcuts(d->action, shortcutForKey(d->key));
 
     connect(d->action, &QAction::triggered, this, &kpTool::actionActivated);

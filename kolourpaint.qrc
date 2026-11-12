@@ -15,6 +15,10 @@
       <file alias="tool_spraycan_17x17.png">pics/custom/tool_spraycan_17x17.png</file>
       <file alias="tool_spraycan_29x29.png">pics/custom/tool_spraycan_29x29.png</file>
       <file alias="tool_spraycan_9x9.png">pics/custom/tool_spraycan_9x9.png</file>
+      <file alias="tool_arrow/16.svg">pics/action/16-actions-tool_arrow.svg</file>
+      <file alias="tool_arrow/22.svg">pics/action/22-actions-tool_arrow.svg</file>
+      <file alias="tool_arrow/32.svg">pics/action/32-actions-tool_arrow.svg</file>
+      <file alias="tool_arrow/48.svg">pics/action/48-actions-tool_arrow.svg</file>
     </qresource>
     <qresource prefix="/kxmlgui5/kolourpaint">
         <file>kolourpaintui.rc</file>
