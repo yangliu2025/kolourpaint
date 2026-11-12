@@ -70,6 +70,23 @@ void kpToolWidgetBase::startNewOptionRow()
 //---------------------------------------------------------------------
 
 // public
+void kpToolWidgetBase::setOptionPixmap(int row, int col, const QPixmap &pixmap)
+{
+    if (row < 0 || row >= m_pixmaps.count() || col < 0 || col >= m_pixmaps[row].count()) {
+        return;
+    }
+
+    const bool resized = (pixmap.size() != m_pixmaps[row][col].size());
+    m_pixmaps[row][col] = pixmap;
+    if (resized) {
+        relayoutOptions();
+    }
+    update();
+}
+
+//---------------------------------------------------------------------
+
+// public
 void kpToolWidgetBase::finishConstruction(int fallBackRow, int fallBackCol)
 {
 #if DEBUG_KP_TOOL_WIDGET_BASE

@@ -33,6 +33,9 @@ public:
     void addOption(const QPixmap &pixmap, const QString &toolTip = QString());
     void startNewOptionRow();
 
+    // Replaces the pixmap of an existing option, e.g. after the look changed.
+    void setOptionPixmap(int row, int col, const QPixmap &pixmap);
+
     // Call this at the end of your constructor.
     // If the default row & col could not be read from the config,
     // <fallBackRow> & <fallBackCol> are passed to setSelected().

@@ -9,6 +9,7 @@
 
 #include "kpToolWidgetFillStyle.h"
 
+#include "generic/kpModernLook.h"
 #include "imagelib/kpColor.h"
 #include "kpDefs.h"
 #include "pixmapfx/kpPixmapFX.h"
@@ -24,16 +25,22 @@
 kpToolWidgetFillStyle::kpToolWidgetFillStyle(QWidget *parent, const QString &name)
     : kpToolWidgetBase(parent, name)
 {
-    for (int i = 0; i < FillStyleNum; i++) {
-        QPixmap pixmap;
+    const int w = (width() - 2 /*margin*/) * 3 / 4;
+    const int h = (height() - 2 /*margin*/ - 2 /*spacing*/) * 3 / (3 * 4);
 
-        pixmap = fillStylePixmap(static_cast<FillStyle>(i), (width() - 2 /*margin*/) * 3 / 4, (height() - 2 /*margin*/ - 2 /*spacing*/) * 3 / (3 * 4));
-        addOption(pixmap, fillStyleName(static_cast<FillStyle>(i)) /*tooltip*/);
+    for (int i = 0; i < FillStyleNum; i++) {
+        addOption(fillStylePixmap(static_cast<FillStyle>(i), w, h), fillStyleName(static_cast<FillStyle>(i)) /*tooltip*/);
 
         startNewOptionRow();
     }
 
     finishConstruction(0, 0);
+
+    connect(kpModernLook::instance(), &kpModernLook::changed, this, [this, w, h] {
+        for (int i = 0; i < FillStyleNum; i++) {
+            setOptionPixmap(i, 0, fillStylePixmap(static_cast<FillStyle>(i), w, h));
+        }
+    });
 }
 
 //---------------------------------------------------------------------
@@ -46,7 +53,8 @@ kpToolWidgetFillStyle::~kpToolWidgetFillStyle() = default;
 QPixmap kpToolWidgetFillStyle::fillStylePixmap(FillStyle fs, int w, int h)
 {
     QPixmap pixmap((w <= 0 ? width() : w), (h <= 0 ? height() : h));
-    pixmap.fill(Qt::transparent);
+    // The modern look draws its rounded selection behind the pixmap.
+    pixmap.fill(kpModernLook::isActive() ? QColor(Qt::transparent) : palette().color(QPalette::Window));
 
     const int penWidth = 2;
 

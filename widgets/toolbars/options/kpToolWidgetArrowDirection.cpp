@@ -6,6 +6,7 @@
 
 #include "kpToolWidgetArrowDirection.h"
 
+#include "generic/kpModernLook.h"
 #include "tools/rectangular/kpToolArrow.h"
 
 #include <KLocalizedString>
@@ -29,6 +30,12 @@ kpToolWidgetArrowDirection::kpToolWidgetArrowDirection(QWidget *parent, const QS
     }
 
     finishConstruction(0, 0);
+
+    connect(kpModernLook::instance(), &kpModernLook::changed, this, [this] {
+        for (int i = 0; i < DirectionNum; i++) {
+            setOptionPixmap(i / 2, i % 2, directionPixmap(static_cast<Direction>(i)));
+        }
+    });
 }
 
 //---------------------------------------------------------------------
@@ -51,8 +58,8 @@ QPixmap kpToolWidgetArrowDirection::directionPixmap(Direction direction) const
     const QPolygonF inner = kpToolArrow::insetPolygon(outer, 1);
 
     // Like the tool icons: a solid outline with a half-transparent inside.
-    // Black like the other options, which kpToolWidgetBase recolors.
-    const QColor color = Qt::black;
+    // The modern look recolors black like in the other options' pixmaps.
+    const QColor color = kpModernLook::isActive() ? QColor(Qt::black) : palette().color(QPalette::WindowText);
     QColor fillColor = color;
     fillColor.setAlphaF(0.5);
 
