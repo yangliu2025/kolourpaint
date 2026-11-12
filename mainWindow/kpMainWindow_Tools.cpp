@@ -35,6 +35,7 @@
 #include "tools/polygonal/kpToolLine.h"
 #include "tools/polygonal/kpToolPolygon.h"
 #include "tools/polygonal/kpToolPolyline.h"
+#include "tools/rectangular/kpToolArrow.h"
 #include "tools/rectangular/kpToolEllipse.h"
 #include "tools/rectangular/kpToolRectangle.h"
 #include "tools/rectangular/kpToolRoundedRectangle.h"
@@ -103,6 +104,7 @@ void kpMainWindow::setupToolActions()
     d->tools.append(d->toolPolyline = new kpToolPolyline(toolEnv, this));
     d->tools.append(d->toolCurve = new kpToolCurve(toolEnv, this));
 
+    d->tools.append(d->toolArrow = new kpToolArrow(toolEnv, this));
     d->tools.append(d->toolZoom = new kpToolZoom(toolEnv, this));
 
     KActionCollection *ac = actionCollection();

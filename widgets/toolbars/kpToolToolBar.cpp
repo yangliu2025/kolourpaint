@@ -23,6 +23,7 @@
 
 #include "kpDefs.h"
 #include "tools/kpTool.h"
+#include "widgets/toolbars/options/kpToolWidgetArrowDirection.h"
 #include "widgets/toolbars/options/kpToolWidgetBrush.h"
 #include "widgets/toolbars/options/kpToolWidgetEraserSize.h"
 #include "widgets/toolbars/options/kpToolWidgetFillStyle.h"
@@ -75,6 +76,7 @@ kpToolToolBar::kpToolToolBar(const QString &name, int colsOrRows, QMainWindow *p
     m_toolWidgets.append(m_toolWidgetEraserSize = new kpToolWidgetEraserSize(m_baseWidget, QStringLiteral("Tool Widget Eraser Size")));
     m_toolWidgets.append(m_toolWidgetFillStyle = new kpToolWidgetFillStyle(m_baseWidget, QStringLiteral("Tool Widget Fill Style")));
     m_toolWidgets.append(m_toolWidgetLineWidth = new kpToolWidgetLineWidth(m_baseWidget, QStringLiteral("Tool Widget Line Width")));
+    m_toolWidgets.append(m_toolWidgetArrowDirection = new kpToolWidgetArrowDirection(m_baseWidget, QStringLiteral("Tool Widget Arrow Direction")));
     m_toolWidgets.append(m_toolWidgetOpaqueOrTransparent = new kpToolWidgetOpaqueOrTransparent(m_baseWidget, QStringLiteral("Tool Widget Opaque/Transparent")));
     m_toolWidgets.append(m_toolWidgetSpraycanSize = new kpToolWidgetSpraycanSize(m_baseWidget, QStringLiteral("Tool Widget Spraycan Size")));
 

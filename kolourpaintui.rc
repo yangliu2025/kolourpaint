@@ -4,7 +4,7 @@ SYNC: Do not change the number of quotes before the version number
       - it is parsed by the KolourPaint wrapper shell script (in standalone
       backport releases of KolourPaint)
 -->
-<gui name="kolourpaint" version="75">
+<gui name="kolourpaint" version="76">
 
 <!--
 SYNC: Check for duplicate actions in menus caused by some of our actions
@@ -117,6 +117,7 @@ SYNC: Check for duplicate actions in menus caused by some of our actions
 
     <!-- HACK: See kpmainwindow.cpp:kpMainWindow::createGUI(). -->
     <Menu name="toolToolBarHiddenMenu">
+        <Action name="tool_arrow" />
         <Action name="tool_brush" />
         <Action name="tool_color_eraser" />
         <Action name="tool_color_picker" />

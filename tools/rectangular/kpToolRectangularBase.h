@@ -69,6 +69,13 @@ private:
 private:
     kpColor drawingForegroundColor() const;
     kpColor drawingBackgroundColor() const;
+
+protected:
+    // The function that draws the shape; by default the one passed to the ctor.
+    // It is also stored in the command that is added to the history.
+    virtual DrawShapeFunc drawShapeFunc() const;
+
+    // Redraws the shape being dragged, e.g. after a tool option changed.
     void updateShape();
 
 public:

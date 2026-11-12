@@ -157,6 +157,19 @@ writing text (as the single key shortcuts will be disabled). For example, to sel
 </para>
 
 <simplelist>
+<member>
+<link linkend="tool-arrow">
+<guiicon>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="tool_arrow.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject>
+</guiicon>
+</link>
+<link linkend="tool-arrow">Arrow</link> (W)
+</member>
+
 <member><link linkend="tool-brush"><guiicon>
 <inlinemediaobject><imageobject><imagedata fileref="tool_brush.png" format="PNG"/>
 </imageobject></inlinemediaobject>
@@ -391,6 +404,39 @@ writing text (as the single key shortcuts will be disabled). For example, to sel
 </member>
 </simplelist>
 
+</sect1>
+
+<sect1 id="tool-arrow">
+<title>Arrow <inlinemediaobject>
+<imageobject>
+<imagedata fileref="tool_arrow.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject>
+</title>
+
+<para>Click and drag to draw a block arrow that fills the rectangle you
+drag out. The head of the arrow is half as long as the shorter side of that
+rectangle, and the shaft is half as thick as the head is wide.</para>
+
+<para>The &LMB; draws in the foreground color. The &RMB; draws in the
+background color, and will reverse the fill color.</para>
+
+<para>You can also <link linkend="tool-options">set the line width, fill
+style and arrow direction</link>. You can change the direction while you are
+still dragging.</para>
+
+<para>For additional functionality, use the modifier keys:</para>
+
+<itemizedlist>
+<listitem>
+<para>Hold &Shift; and drag to draw an arrow that fits in a square.</para>
+</listitem>
+<listitem>
+<para>To draw an arrow with a center point of your choice, hold &Ctrl;,
+click on the center point, and drag until the arrow is the correct size
+and shape.</para>
+</listitem>
+</itemizedlist>
 </sect1>
 
 <sect1 id="tool-brush">
@@ -913,6 +959,7 @@ linkend="tool-erasers">Erasers</link>.</para>
 from line widths of 1, 2, 3, 5 and 8 pixel(s).</para>
 
 <para>The line width setting affects the <link
+linkend="tool-arrow">Arrow</link>, <link
 linkend="tool-polystar">Connected Lines</link>, <link
 linkend="tool-curve">Curve</link>, <link
 linkend="tool-ellipse">Ellipse</link>, <link
@@ -934,11 +981,28 @@ linkend="tool-rectangles">Rounded Rectangle</link> tools.  </para>
 <para>Click on one of the rectangles to select the fill style. You can
 select from No Fill, Fill with Background Color and Fill with Foreground
 Color.</para> <para>The fill style setting affects the <link
+linkend="tool-arrow">Arrow</link>, <link
 linkend="tool-ellipse">Ellipse</link>, <link
 linkend="tool-polystar">Polygon</link>, <link
 linkend="tool-rectangles">Rectangle</link> and <link
 linkend="tool-rectangles">Rounded Rectangle</link> tools.
 </para>
+</entry>
+</row>
+<row>
+<entry>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="arrow_direction.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject>
+</entry>
+<entry>
+<para>Click on one of the arrows to select which way the arrow points:
+right, left, up or down.</para>
+
+<para>The arrow direction setting affects the <link
+linkend="tool-arrow">Arrow</link> tool.</para>
 </entry>
 </row>
 </tbody>

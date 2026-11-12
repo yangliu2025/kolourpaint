@@ -237,6 +237,7 @@ set(kolourpaint_lib2_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/polygonal/kpToolPolygonalBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/polygonal/kpToolPolygon.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/polygonal/kpToolPolyline.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools/rectangular/kpToolArrow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/rectangular/kpToolEllipse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/rectangular/kpToolRectangle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/rectangular/kpToolRectangularBase.cpp
@@ -308,6 +309,7 @@ set(kolourpaint_app_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/kpTransparentColorCell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/kpColorToolBar.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/kpToolToolBar.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/options/kpToolWidgetArrowDirection.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/options/kpToolWidgetBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/options/kpToolWidgetBrush.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/toolbars/options/kpToolWidgetEraserSize.cpp

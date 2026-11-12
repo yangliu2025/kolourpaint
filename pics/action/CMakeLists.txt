@@ -1,4 +1,5 @@
 ecm_install_icons(ICONS
+    16-actions-tool_arrow.svg
     16-actions-tool_brush.png
     16-actions-tool_color_eraser.png
     16-actions-tool_color_picker.png
@@ -17,6 +18,7 @@ ecm_install_icons(ICONS
     16-actions-tool_rounded_rectangle.png
     16-actions-tool_spraycan.png
     16-actions-tool_text.png
+    22-actions-tool_arrow.svg
     22-actions-tool_brush.png
     22-actions-tool_color_eraser.png
     22-actions-tool_color_picker.png
@@ -35,6 +37,7 @@ ecm_install_icons(ICONS
     22-actions-tool_rounded_rectangle.png
     22-actions-tool_spraycan.png
     22-actions-tool_text.png
+    32-actions-tool_arrow.svg
     32-actions-tool_brush.png
     32-actions-tool_color_eraser.png
     32-actions-tool_color_picker.png
@@ -53,6 +56,7 @@ ecm_install_icons(ICONS
     32-actions-tool_rounded_rectangle.png
     32-actions-tool_spraycan.png
     32-actions-tool_text.png
+    48-actions-tool_arrow.svg
     48-actions-tool_brush.png
     48-actions-tool_color_eraser.png
     48-actions-tool_color_picker.png

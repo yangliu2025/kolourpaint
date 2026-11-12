@@ -76,7 +76,8 @@ struct kpMainWindowPrivate {
         , toolsActionGroup(nullptr)
         ,
 
-        toolSpraycan(nullptr)
+        toolArrow(nullptr)
+        , toolSpraycan(nullptr)
         , toolBrush(nullptr)
         , toolColorEraser(nullptr)
         , toolColorPicker(nullptr)
@@ -292,8 +293,9 @@ struct kpMainWindowPrivate {
     kpToolSelectionEnvironment *toolSelectionEnvironment;
     QActionGroup *toolsActionGroup;
 
-    kpTool *toolSpraycan, *toolBrush, *toolColorEraser, *toolColorPicker, *toolCurve, *toolEllipse, *toolEllipticalSelection, *toolEraser, *toolFloodFill,
-        *toolFreeFormSelection, *toolLine, *toolPen, *toolPolygon, *toolPolyline, *toolRectangle, *toolRectSelection, *toolRoundedRectangle, *toolZoom;
+    kpTool *toolArrow, *toolSpraycan, *toolBrush, *toolColorEraser, *toolColorPicker, *toolCurve, *toolEllipse, *toolEllipticalSelection, *toolEraser,
+        *toolFloodFill, *toolFreeFormSelection, *toolLine, *toolPen, *toolPolygon, *toolPolyline, *toolRectangle, *toolRectSelection, *toolRoundedRectangle,
+        *toolZoom;
     kpToolText *toolText;
 
     QList<kpTool *> tools;

@@ -227,20 +227,27 @@ kpColor kpToolRectangularBase::drawingBackgroundColor() const
 
 //---------------------------------------------------------------------
 
-// private
+// protected virtual
+kpToolRectangularBase::DrawShapeFunc kpToolRectangularBase::drawShapeFunc() const
+{
+    return d->drawShapeFunc;
+}
+
+//---------------------------------------------------------------------
+
+// protected
 void kpToolRectangularBase::updateShape()
 {
     kpImage image = document()->getImageAt(d->toolRectangleRect);
 
-    // Invoke shape drawing function passed in ctor.
-    (*d->drawShapeFunc)(&image,
-                        0,
-                        0,
-                        d->toolRectangleRect.width(),
-                        d->toolRectangleRect.height(),
-                        drawingForegroundColor(),
-                        d->toolWidgetLineWidth->lineWidth(),
-                        drawingBackgroundColor());
+    (*drawShapeFunc())(&image,
+                       0,
+                       0,
+                       d->toolRectangleRect.width(),
+                       d->toolRectangleRect.height(),
+                       drawingForegroundColor(),
+                       d->toolWidgetLineWidth->lineWidth(),
+                       drawingBackgroundColor());
 
     kpTempImage newTempImage(false /*always display*/, kpTempImage::SetImage /*render mode*/, d->toolRectangleRect.topLeft(), image);
 
@@ -312,7 +319,7 @@ void kpToolRectangularBase::endDraw(const QPoint &, const QRect &)
     viewManager()->invalidateTempImage();
 
     environ()->commandHistory()->addCommand(new kpToolRectangularCommand(text(),
-                                                                         d->drawShapeFunc,
+                                                                         drawShapeFunc(),
                                                                          d->toolRectangleRect,
                                                                          drawingForegroundColor(),
                                                                          d->toolWidgetLineWidth->lineWidth(),

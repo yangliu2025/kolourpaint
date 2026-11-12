@@ -21,7 +21,7 @@ class QWidget;
 
 class kpTool;
 class kpToolButton;
-
+class kpToolWidgetArrowDirection;
 class kpToolWidgetBase;
 class kpToolWidgetBrush;
 class kpToolWidgetEraserSize;
@@ -64,6 +64,10 @@ public:
     kpToolWidgetLineWidth *toolWidgetLineWidth() const
     {
         return m_toolWidgetLineWidth;
+    }
+    kpToolWidgetArrowDirection *toolWidgetArrowDirection() const
+    {
+        return m_toolWidgetArrowDirection;
     }
     kpToolWidgetOpaqueOrTransparent *toolWidgetOpaqueOrTransparent() const
     {
@@ -108,6 +112,7 @@ private:
     kpToolWidgetEraserSize *m_toolWidgetEraserSize;
     kpToolWidgetFillStyle *m_toolWidgetFillStyle;
     kpToolWidgetLineWidth *m_toolWidgetLineWidth;
+    kpToolWidgetArrowDirection *m_toolWidgetArrowDirection;
     kpToolWidgetOpaqueOrTransparent *m_toolWidgetOpaqueOrTransparent;
     kpToolWidgetSpraycanSize *m_toolWidgetSpraycanSize;
 
