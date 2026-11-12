@@ -1,3 +1,13 @@
+kolourpaint (4:24.02.2-0yl2) noble; urgency=medium
+
+  * New Arrow tool (shortcut W) for MS Paint-style block arrows pointing
+    right, left, up or down.
+  * Tool icons missing from the icon theme fall back to bundled copies, so
+    the Arrow tool has an icon outside Plasma too.
+  * debian/control: Depends on libqt5svg5, which loads those SVG icons.
+
+ -- Yang Liu <yangliu2005@mail.com>  Wed, 11 Nov 2026 19:50:08 -0800
+
 kolourpaint (4:24.02.2-0yl1) noble; urgency=medium
 
   * Build from the noble-kf5 branch: KolourPaint 24.02.2 (the last release

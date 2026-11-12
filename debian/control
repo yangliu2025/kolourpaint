@@ -28,7 +28,7 @@ Vcs-Git: https://github.com/yangliu2025/kolourpaint.git -b noble-kf5
 Package: kolourpaint
 Section: graphics
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: libqt5svg5, ${misc:Depends}, ${shlibs:Depends}
 Breaks: kolourpaint4 (<< 4:17.04)
 Replaces: kolourpaint4 (<< 4:17.04)
 Description: simple image editor and drawing application
