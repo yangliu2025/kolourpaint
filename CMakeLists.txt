@@ -29,6 +29,7 @@ include(FeatureSummary)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
+    DBus
     Widgets
     PrintSupport
 )
@@ -156,6 +157,7 @@ set(kolourpaint_lib1_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/kpEnvironmentBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/tools/kpToolEnvironment.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/tools/selection/kpToolSelectionEnvironment.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpModernLook.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpSetOverrideCursorSaver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpWidgetMapper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/widgets/kpResizeSignallingLabel.cpp
@@ -346,6 +348,7 @@ target_link_libraries(kolourpaint
     KF5::XmlGui
     KF5::KIOFileWidgets
     KF5::Crash
+    Qt5::DBus
     Qt5::PrintSupport
     kolourpaint_lgpl
 )

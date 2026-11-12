@@ -1080,6 +1080,7 @@ The left picture shows the example image. The right pictures demonstrate the use
 
 <para><link linkend="view-zoom">Zoom incorporating the Grid</link></para>
 <para><link linkend="view-thumbnail">Thumbnail</link></para>
+<para><link linkend="view-modern-look">Modern Look</link></para>
 
 </sect1>
 
@@ -1133,6 +1134,28 @@ If <guimenuitem>Zoomed Thumbnail Mode</guimenuitem> is selected, the entire imag
 </para>
 <para>
 Otherwise, the thumbnail displays as much of the image as possible, starting from the top-left of the main view (bottom-right picture).
+</para>
+</sect1>
+
+<sect1 id="view-modern-look">
+<title>Modern Look</title>
+<para>
+By default &kolourpaint; uses a flat look with rounded buttons that follows the
+light or dark style and the accent color of your desktop.  To go back to the
+classic look, uncheck <menuchoice><guimenu>Settings</guimenu><guimenuitem>Modern Look</guimenuitem></menuchoice>.
+The change takes effect immediately and is remembered.
+</para>
+<para>
+The light or dark style and the accent color come from the desktop's settings
+portal, which GNOME and other desktops provide, and are followed while
+&kolourpaint; is running.  If you have chosen a color scheme yourself, for
+example a KDE color scheme, &kolourpaint; keeps its colors and only uses the
+flat shapes.
+</para>
+<para>
+To force the light or dark style, start &kolourpaint; with the environment
+variable <envar>KOLOURPAINT_COLOR_SCHEME</envar> set to <literal>light</literal>
+or <literal>dark</literal>.
 </para>
 </sect1>
 

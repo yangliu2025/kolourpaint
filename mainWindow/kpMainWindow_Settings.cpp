@@ -19,6 +19,7 @@
 
 #include "document/kpDocument.h"
 #include "environments/tools/kpToolEnvironment.h"
+#include "generic/kpModernLook.h"
 #include "kpDefs.h"
 #include "widgets/toolbars/kpToolToolBar.h"
 
@@ -46,6 +47,16 @@ void kpMainWindow::setupSettingsMenuActions()
     action->setText(i18n("Draw Anti-Aliased"));
     action->setChecked(kpToolEnvironment::drawAntiAliased);
     connect(action, &KToggleAction::triggered, this, &kpMainWindow::slotDrawAntiAliasedToggled);
+
+    auto *modernLookAction = ac->add<KToggleAction>(QStringLiteral("settings_modern_look"));
+    modernLookAction->setText(i18n("Modern Look"));
+    modernLookAction->setWhatsThis(i18n("Use a flat, rounded look that follows the desktop's dark mode and accent color."));
+    modernLookAction->setChecked(kpModernLook::isActive());
+    connect(modernLookAction, &KToggleAction::triggered, kpModernLook::instance(), &kpModernLook::setEnabled);
+    // Keep the check mark in sync with other windows.
+    connect(kpModernLook::instance(), &kpModernLook::changed, modernLookAction, [modernLookAction] {
+        modernLookAction->setChecked(kpModernLook::isActive());
+    });
 
     d->actionKeyBindings = KStandardAction::keyBindings(this, SLOT(slotKeyBindings()), ac);
 

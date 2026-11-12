@@ -9,6 +9,7 @@
 
 #include "kpToolWidgetBase.h"
 
+#include "generic/kpModernLook.h"
 #include "kpDefs.h"
 
 #include "kpLogCategories.h"
@@ -622,6 +623,11 @@ void kpToolWidgetBase::paintEvent(QPaintEvent *e)
 
     QPainter painter(this);
 
+    const bool modern = kpModernLook::isActive();
+    if (modern) {
+        painter.setRenderHint(QPainter::Antialiasing);
+    }
+
     for (int i = 0; i < m_pixmaps.count(); i++) {
 #if DEBUG_KP_TOOL_WIDGET_BASE && 1
         qCDebug(kpLogWidgets) << "\tRow: " << i;
@@ -635,8 +641,18 @@ void kpToolWidgetBase::paintEvent(QPaintEvent *e)
             qCDebug(kpLogWidgets) << "\t\tCol: " << j << " rect=" << rect;
 #endif
 
-            if (i == m_selectedRow && j == m_selectedCol) {
+            const bool selected = (i == m_selectedRow && j == m_selectedCol);
+            if (selected && modern) {
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(palette().color(QPalette::Highlight));
+                painter.drawRoundedRect(QRectF(rect).adjusted(0.5, 0.5, -0.5, -0.5), 4, 4);
+            } else if (selected) {
                 painter.fillRect(rect, palette().color(QPalette::Highlight).rgb());
+            }
+
+            // The option pixmaps are drawn in black, which a dark palette hides.
+            if (modern) {
+                pixmap = kpModernLook::recolorInk(pixmap, palette().color(selected ? QPalette::HighlightedText : QPalette::WindowText));
             }
 
 #if DEBUG_KP_TOOL_WIDGET_BASE && 1

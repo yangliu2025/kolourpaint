@@ -7,6 +7,7 @@
 
 #include <KAboutData>
 
+#include "generic/kpModernLook.h"
 #include "kpVersion.h"
 #include "mainWindow/kpMainWindow.h"
 #include <document/kpDocument.h>
@@ -87,6 +88,8 @@ int main(int argc, char *argv[])
 
         return 0;
     }
+
+    kpModernLook::initialize();
 
     if (app.isSessionRestored()) {
         // Creates a kpMainWindow using the default constructor and then

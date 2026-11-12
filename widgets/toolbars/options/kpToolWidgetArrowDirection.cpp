@@ -51,7 +51,8 @@ QPixmap kpToolWidgetArrowDirection::directionPixmap(Direction direction) const
     const QPolygonF inner = kpToolArrow::insetPolygon(outer, 1);
 
     // Like the tool icons: a solid outline with a half-transparent inside.
-    const QColor color = palette().color(QPalette::WindowText);
+    // Black like the other options, which kpToolWidgetBase recolors.
+    const QColor color = Qt::black;
     QColor fillColor = color;
     fillColor.setAlphaF(0.5);
 

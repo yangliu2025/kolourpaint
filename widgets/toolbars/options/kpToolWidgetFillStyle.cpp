@@ -46,7 +46,7 @@ kpToolWidgetFillStyle::~kpToolWidgetFillStyle() = default;
 QPixmap kpToolWidgetFillStyle::fillStylePixmap(FillStyle fs, int w, int h)
 {
     QPixmap pixmap((w <= 0 ? width() : w), (h <= 0 ? height() : h));
-    pixmap.fill(palette().color(QPalette::Window));
+    pixmap.fill(Qt::transparent);
 
     const int penWidth = 2;
 

@@ -15,7 +15,9 @@
 
 #include <climits>
 
+#include <QApplication>
 #include <QDir>
+#include <QFile>
 #include <QIcon>
 #include <QPixmap>
 
@@ -24,6 +26,7 @@
 #include <KLocalizedString>
 
 #include "environments/tools/kpToolEnvironment.h"
+#include "generic/kpModernLook.h"
 #include "imagelib/kpColor.h"
 #include "views/kpView.h"
 #include "views/manager/kpViewManager.h"
@@ -74,6 +77,37 @@ kpTool::~kpTool()
 
 //---------------------------------------------------------------------
 
+// Icon themes don't have tools newer than themselves, and outside Plasma Qt
+// doesn't look in our installed icon dir, so use the bundled copies.
+static QIcon BundledIcon(const QString &name)
+{
+    // The icons are Breeze style, but only KDE's icon engine recolors those
+    // for dark color schemes, so do it here the way breeze-dark does.
+    const bool dark = kpModernLook::isDark(QApplication::palette());
+
+    QIcon icon;
+    const QDir bundled(QStringLiteral(":/icons/") + name);
+    const QFileInfoList files = bundled.entryInfoList(QDir::Files);
+    for (const QFileInfo &fileInfo : files) {
+        QFile file(fileInfo.filePath());
+        if (!file.open(QIODevice::ReadOnly)) {
+            continue;
+        }
+
+        QByteArray svg = file.readAll();
+        if (dark) {
+            svg.replace("#232629", "#eff0f1");
+        }
+
+        QPixmap pixmap;
+        pixmap.loadFromData(svg, "SVG");
+        icon.addPixmap(pixmap);
+    }
+    return icon;
+}
+
+//---------------------------------------------------------------------
+
 // private
 void kpTool::initAction()
 {
@@ -83,17 +117,15 @@ void kpTool::initAction()
     d->action = ac->add<KToggleAction>(objectName());
     d->action->setText(text());
     d->action->setWhatsThis(d->description);
-    QIcon icon = QIcon::fromTheme(objectName());
-    if (icon.isNull()) {
-        // Icon themes don't have tools newer than themselves, and outside Plasma
-        // Qt doesn't look in our installed icon dir, so use the bundled copies.
-        const QDir bundled(QStringLiteral(":/icons/") + objectName());
-        const QFileInfoList files = bundled.entryInfoList(QDir::Files);
-        for (const QFileInfo &file : files) {
-            icon.addPixmap(QPixmap(file.filePath()));
-        }
+    if (QIcon::fromTheme(objectName()).isNull() && QDir(QStringLiteral(":/icons/") + objectName()).exists()) {
+        d->action->setIcon(BundledIcon(objectName()));
+        // Follow the palette when the modern look switches between dark and light.
+        connect(kpModernLook::instance(), &kpModernLook::changed, d->action, [this] {
+            d->action->setIcon(BundledIcon(objectName()));
+        });
+    } else {
+        d->action->setIcon(QIcon::fromTheme(objectName()));
     }
-    d->action->setIcon(icon);
     ac->setDefaultShortcuts(d->action, shortcutForKey(d->key));
 
     connect(d->action, &QAction::triggered, this, &kpTool::actionActivated);

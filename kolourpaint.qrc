@@ -3,6 +3,8 @@
     <qresource prefix="/icons">
       <file alias="colorbutton_swap_16x16.png">pics/custom/colorbutton_swap_16x16.png</file>
       <file alias="color_transparent_26x26.png">pics/custom/color_transparent_26x26.png</file>
+      <file alias="chevron_down_dark.svg">pics/custom/chevron_down_dark.svg</file>
+      <file alias="chevron_down_light.svg">pics/custom/chevron_down_light.svg</file>
       <file alias="image_rotate_anticlockwise.png">pics/custom/image_rotate_anticlockwise.png</file>
       <file alias="image_rotate_clockwise.png">pics/custom/image_rotate_clockwise.png</file>
       <file alias="image_skew_horizontal.png">pics/custom/image_skew_horizontal.png</file>

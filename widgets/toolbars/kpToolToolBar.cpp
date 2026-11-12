@@ -21,6 +21,7 @@
 
 #include "kpLogCategories.h"
 
+#include "generic/kpModernLook.h"
 #include "kpDefs.h"
 #include "tools/kpTool.h"
 #include "widgets/toolbars/options/kpToolWidgetArrowDirection.h"
@@ -359,6 +360,11 @@ bool kpToolToolBar::event(QEvent *ev)
 
 void kpToolToolBar::paintEvent(class QPaintEvent *)
 {
+    // The workspace color already sets the toolbox apart from the canvas.
+    if (kpModernLook::isActive()) {
+        return;
+    }
+
     QStyleOption opt;
     opt.initFrom(this);
     if (opt.rect.height() <= contentsMargins().top() + contentsMargins().bottom() || opt.rect.width() <= contentsMargins().left() + contentsMargins().right()) {
