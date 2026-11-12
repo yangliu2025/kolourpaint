@@ -54,6 +54,8 @@ endif()
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    # Stand-ins for KF6-only headers, so that upstream code can use them unchanged.
+    ${CMAKE_CURRENT_SOURCE_DIR}/kf5compat
 )
 
  

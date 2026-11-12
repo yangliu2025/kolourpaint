@@ -1,0 +1,57 @@
+/*
+    KF5 stand-in for the KLocalization header that KDE Frameworks 6.5 added to
+    KI18n. Only setupSpinBoxFormatString() is provided, which is all that
+    KolourPaint uses. It follows the KF6 implementation, except that the format
+    string is kept in the connected lambda because KF5 does not register
+    KLocalizedString as a QMetaType.
+
+    SPDX-FileCopyrightText: 2024 Lukas Sommer <sommerluk@gmail.com>
+    SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
+
+#ifndef KP_KF5COMPAT_KLOCALIZATION
+#define KP_KF5COMPAT_KLOCALIZATION
+
+#include <KLocalizedString>
+
+#include <QDoubleSpinBox>
+#include <QSpinBox>
+#include <QStringList>
+
+#include <type_traits>
+
+namespace KLocalization
+{
+
+// formatString must contain the placeholder "%v" for the value, for example
+// ki18np("%v second", "%v seconds"). For a QSpinBox, the plural form follows
+// the current value.
+template<typename T>
+inline void setupSpinBoxFormatString(T *spinBox, const KLocalizedString &formatString)
+{
+    constexpr bool isSpinBox = std::is_base_of_v<QSpinBox, T>;
+    constexpr bool isDoubleSpinBox = std::is_base_of_v<QDoubleSpinBox, T>;
+    static_assert(isSpinBox || isDoubleSpinBox, "First argument must be a QSpinBox or QDoubleSpinBox.");
+
+    const KLocalizedString lString = formatString.relaxSubs();
+    const auto retranslate = [spinBox, lString]() {
+        const QStringList parts = lString.subs(spinBox->value()).toString().split(QLatin1String("%v"));
+        if (parts.count() == 2) {
+            spinBox->setPrefix(parts.at(0));
+            spinBox->setSuffix(parts.at(1));
+        } else {
+            spinBox->setPrefix(QString());
+            spinBox->setSuffix(QString());
+        }
+    };
+
+    if constexpr (isSpinBox) {
+        QObject::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged), spinBox, retranslate);
+    }
+    retranslate();
+}
+
+}
+
+#endif
