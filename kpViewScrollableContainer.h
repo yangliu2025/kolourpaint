@@ -16,6 +16,7 @@ class QCursor;
 class QEvent;
 class QKeyEvent;
 class QMouseEvent;
+class QPaintEvent;
 class QRect;
 class QResizeEvent;
 class QTimer;
@@ -86,6 +87,8 @@ protected:
     void enterEvent(QEvent *e) override;
 #endif
     void leaveEvent(QEvent *e) override;
+
+    void paintEvent(QPaintEvent *e) override;
 
 protected:
     GripType m_type;
@@ -162,6 +165,9 @@ private:
 
     void wheelEvent(QWheelEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
+    void paintEvent(QPaintEvent *e) override;
+
+    void applyLook();
 
 private Q_SLOTS:
     void slotGripBeganDraw();

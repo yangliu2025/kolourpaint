@@ -11,6 +11,7 @@
 
 #include <QCursor>
 #include <QKeyEvent>
+#include <QPaintEvent>
 #include <QPainter>
 #include <QPixmap>
 #include <QScrollBar>
@@ -19,6 +20,7 @@
 #include "kpLogCategories.h"
 #include <KLocalizedString>
 
+#include "generic/kpModernLook.h"
 #include "generic/kpWidgetMapper.h"
 #include "kpDefs.h"
 #include "pixmapfx/kpPixmapFX.h"
@@ -171,6 +173,7 @@ void kpGrip::cancel()
     setUserMessage(i18n("Resize Image: Let go of all the mouse buttons."));
     setCursor(Qt::ArrowCursor);
     m_shouldReleaseMouseButtons = true;
+    update();
 
     Q_EMIT cancelledDraw();
 }
@@ -203,6 +206,8 @@ void kpGrip::mousePressEvent(QMouseEvent *e)
             cancel();
         }
     }
+
+    update();
 }
 
 //---------------------------------------------------------------------
@@ -281,6 +286,8 @@ void kpGrip::mouseReleaseEvent(QMouseEvent *e)
 
         Q_EMIT releasedAllButtons();
     }
+
+    update();
 }
 
 //---------------------------------------------------------------------
@@ -303,6 +310,8 @@ void kpGrip::enterEvent(QEvent * /*e*/)
 #endif
         setUserMessage(haventBegunDrawUserMessage());
     }
+
+    update();
 }
 
 //---------------------------------------------------------------------
@@ -317,6 +326,37 @@ void kpGrip::leaveEvent(QEvent * /*e*/)
     if (m_startPoint == KP_INVALID_POINT && !m_shouldReleaseMouseButtons) {
         setUserMessage(QString());
     }
+
+    update();
+}
+
+//---------------------------------------------------------------------
+
+// protected virtual [base QWidget]
+void kpGrip::paintEvent(QPaintEvent *e)
+{
+    if (!kpModernLook::isActive()) {
+        QWidget::paintEvent(e);
+        return;
+    }
+
+    // Only a small handle in the middle of the edge (or in the corner) is
+    // drawn, but the whole strip still reacts to the mouse.
+    QRect handle(0, 0, kpGrip::Size, kpGrip::Size);
+    if (m_type == kpGrip::Right) {
+        handle.moveTop((height() - kpGrip::Size) / 2);
+    } else if (m_type == kpGrip::Bottom) {
+        handle.moveLeft((width() - kpGrip::Size) / 2);
+    }
+
+    const bool hot = underMouse() || isDrawing();
+    const QColor accent = palette().color(QPalette::Highlight);
+    const QColor border = kpModernLook::mix(kpModernLook::workspaceColor(palette()), palette().color(QPalette::WindowText), 0.6);
+
+    QPainter p(this);
+    p.setPen(hot ? accent : border);
+    p.setBrush(hot ? accent : QColor(Qt::white));
+    p.drawRect(handle.adjusted(0, 0, -1, -1));
 }
 
 //---------------------------------------------------------------------
@@ -368,6 +408,9 @@ kpViewScrollableContainer::kpViewScrollableContainer(QWidget *parent)
     });
 
     m_overlay->hide();
+
+    connect(kpModernLook::instance(), &kpModernLook::changed, this, &kpViewScrollableContainer::applyLook);
+    applyLook();
 }
 
 //---------------------------------------------------------------------
@@ -517,7 +560,9 @@ QRect kpViewScrollableContainer::bottomResizeLineRect() const
         return {};
     }
 
-    QRect visibleArea = QRect(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), viewport()->size());
+    // (the view's position in the viewport is not just the scroll offset
+    //  when the modern look centers the view)
+    const QRect visibleArea(-widget()->pos(), viewport()->size());
 
     return QRect(QPoint(0, m_resizeRoundedLastViewY), QPoint(m_resizeRoundedLastViewX - 1, m_resizeRoundedLastViewY + bottomResizeLineWidth() - 1))
         .intersected(visibleArea);
@@ -532,7 +577,9 @@ QRect kpViewScrollableContainer::rightResizeLineRect() const
         return {};
     }
 
-    QRect visibleArea = QRect(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), viewport()->size());
+    // (the view's position in the viewport is not just the scroll offset
+    //  when the modern look centers the view)
+    const QRect visibleArea(-widget()->pos(), viewport()->size());
 
     return QRect(QPoint(m_resizeRoundedLastViewX, 0), QPoint(m_resizeRoundedLastViewX + rightResizeLineWidth() - 1, m_resizeRoundedLastViewY - 1))
         .intersected(visibleArea);
@@ -547,7 +594,9 @@ QRect kpViewScrollableContainer::bottomRightResizeLineRect() const
         return {};
     }
 
-    QRect visibleArea = QRect(QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()), viewport()->size());
+    // (the view's position in the viewport is not just the scroll offset
+    //  when the modern look centers the view)
+    const QRect visibleArea(-widget()->pos(), viewport()->size());
 
     return QRect(QPoint(m_resizeRoundedLastViewX, m_resizeRoundedLastViewY),
                  QPoint(m_resizeRoundedLastViewX + rightResizeLineWidth() - 1, m_resizeRoundedLastViewY + bottomResizeLineWidth() - 1))
@@ -563,8 +612,9 @@ QRect kpViewScrollableContainer::mapViewToViewport(const QRect &viewRect)
         return {};
     }
 
+    // The overlay is a child of the viewport, placed at viewport()->pos().
     QRect ret = viewRect;
-    ret.translate(-horizontalScrollBar()->value() - viewport()->x(), -verticalScrollBar()->value() - viewport()->y());
+    ret.translate(widget()->pos() - viewport()->pos());
     return ret;
 }
 
@@ -1061,6 +1111,57 @@ void kpViewScrollableContainer::resizeEvent(QResizeEvent *e)
     QScrollArea::resizeEvent(e);
 
     Q_EMIT resized();
+}
+
+//---------------------------------------------------------------------
+
+// private
+void kpViewScrollableContainer::applyLook()
+{
+    const bool modern = kpModernLook::isActive();
+
+    setAlignment(modern ? Qt::AlignCenter : Qt::AlignLeft | Qt::AlignTop);
+
+    // Let paintEvent()'s workspace and canvas shadow show through around
+    // the view and between the grip handles.
+    widget()->setAutoFillBackground(!modern);
+    for (kpGrip *grip : {m_bottomGrip, m_rightGrip, m_bottomRightGrip}) {
+        grip->setAutoFillBackground(!modern);
+        grip->update();
+    }
+
+    viewport()->update();
+}
+
+//---------------------------------------------------------------------
+
+// protected virtual [base QAbstractScrollArea]
+void kpViewScrollableContainer::paintEvent(QPaintEvent *e)
+{
+    if (!kpModernLook::isActive()) {
+        QScrollArea::paintEvent(e);
+        return;
+    }
+
+    QPainter p(viewport());
+    p.fillRect(e->rect(), kpModernLook::workspaceColor(palette()));
+
+    if (!m_view || m_view->isHidden()) {
+        return;
+    }
+
+    // A soft drop shadow: stacked translucent rounded rectangles, a little
+    // lower than the canvas, painted only outside of it.
+    const QRect canvas(widget()->pos() + m_view->pos(), m_view->size());
+    const int layers = 8;
+
+    p.setClipRegion(e->region().subtracted(canvas));
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setPen(Qt::NoPen);
+    p.setBrush(QColor(0, 0, 0, kpModernLook::isDark(palette()) ? 18 : 6));
+    for (int i = layers; i >= 1; i--) {
+        p.drawRoundedRect(QRectF(canvas).adjusted(-i, -i + 2, i, i + 2), i, i);
+    }
 }
 
 //---------------------------------------------------------------------

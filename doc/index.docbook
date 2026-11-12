@@ -1141,7 +1141,9 @@ Otherwise, the thumbnail displays as much of the image as possible, starting fro
 <title>Modern Look</title>
 <para>
 By default &kolourpaint; uses a flat look with rounded buttons that follows the
-light or dark style and the accent color of your desktop.  To go back to the
+light or dark style and the accent color of your desktop.  The image sits in
+the middle of a tinted workspace with a soft shadow, and the handles in the
+middle of its right and bottom edges and at its corner resize it.  To go back to the
 classic look, uncheck <menuchoice><guimenu>Settings</guimenu><guimenuitem>Modern Look</guimenuitem></menuchoice>.
 The change takes effect immediately and is remembered.
 </para>
