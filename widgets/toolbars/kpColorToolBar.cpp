@@ -16,6 +16,7 @@
 #include <QMenu>
 
 #include "kpLogCategories.h"
+#include <KAcceleratorManager>
 #include <KColorMimeData>
 #include <KDualAction>
 #include <KLocalizedString>
@@ -33,6 +34,9 @@ kpColorToolBar::kpColorToolBar(const QString &label, QWidget *parent)
     : QDockWidget(parent)
 {
     setWindowTitle(label);
+    // The title shows the palette name (see updateNameOrUrlLabel()); keep
+    // KAcceleratorManager from putting a literal '&' into it.
+    KAcceleratorManager::setNoAccel(this);
 
     setFeatures(QDockWidget::NoDockWidgetFeatures);
 
