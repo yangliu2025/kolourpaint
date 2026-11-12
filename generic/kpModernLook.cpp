@@ -345,6 +345,7 @@ kpModernLook::kpModernLook()
     : QObject(qApp)
     , m_enabled(false)
     , m_applied(false)
+    , m_applying(false)
     , m_ownPalette(false)
 {
 }
@@ -366,6 +367,7 @@ void kpModernLook::initialize()
     kpModernLook *look = instance();
 
     look->m_originalPalette = QApplication::palette();
+    look->m_appliedPalette = look->m_originalPalette;
     look->m_originalIconFallback = QIcon::fallbackThemeName();
     look->m_ownPalette = IsStandardPalette(look->m_originalPalette);
 
@@ -375,6 +377,7 @@ void kpModernLook::initialize()
                                           QStringLiteral("SettingChanged"),
                                           look,
                                           SLOT(slotPortalSettingChanged(QString, QString, QDBusVariant)));
+    connect(qApp, &QGuiApplication::paletteChanged, look, &kpModernLook::slotApplicationPaletteChanged);
 
     const KConfigGroup cfg(KSharedConfig::openConfig(), QStringLiteral(kpSettingsGroupGeneral));
     look->m_enabled = cfg.readEntry(kpSettingModernLook, true);
@@ -434,8 +437,11 @@ void kpModernLook::apply()
     qCDebug(kpLogMisc) << "kpModernLook::apply() enabled=" << m_enabled << "ownPalette=" << m_ownPalette << "dark=" << isDark(palette)
                        << "accent=" << palette.color(QPalette::Highlight) << "iconFallback=" << iconFallback;
 
+    m_applying = true;
     QApplication::setPalette(palette);
     qApp->setStyleSheet(styleSheet);
+    m_appliedPalette = QApplication::palette();
+    m_applying = false;
 
     if (iconFallback != QIcon::fallbackThemeName()) {
         QIcon::setFallbackThemeName(iconFallback);
@@ -461,6 +467,30 @@ void kpModernLook::slotPortalSettingChanged(const QString &nameSpace, const QStr
 
     if (relevant && m_applied && m_ownPalette) {
         apply();
+    }
+}
+
+//---------------------------------------------------------------------
+
+// private slot
+void kpModernLook::slotApplicationPaletteChanged()
+{
+    // Qt setting our palette again is no news.
+    const QPalette palette = QApplication::palette();
+    if (m_applying || palette == m_appliedPalette) {
+        return;
+    }
+
+    // Someone else, e.g. the platform theme switching to another KDE color
+    // scheme, set a palette: it is now the one to keep or to restore.
+    qCDebug(kpLogMisc) << "kpModernLook::slotApplicationPaletteChanged() window=" << palette.color(QPalette::Window);
+    m_originalPalette = palette;
+    m_ownPalette = IsStandardPalette(palette);
+    m_appliedPalette = palette;
+
+    if (m_enabled) {
+        // Rebuild the style sheet once this palette change has been delivered.
+        QMetaObject::invokeMethod(this, &kpModernLook::apply, Qt::QueuedConnection);
     }
 }
 

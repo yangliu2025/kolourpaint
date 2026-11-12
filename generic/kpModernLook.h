@@ -48,16 +48,18 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void slotPortalSettingChanged(const QString &nameSpace, const QString &key, const QDBusVariant &value);
+    void slotApplicationPaletteChanged();
 
 private:
     kpModernLook();
-
     void apply();
 
     bool m_enabled;
     bool m_applied;
+    bool m_applying;
     bool m_ownPalette;
     QPalette m_originalPalette;
+    QPalette m_appliedPalette;
     QString m_originalIconFallback;
 };
 
