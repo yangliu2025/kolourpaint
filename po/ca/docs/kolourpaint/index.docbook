@@ -96,9 +96,7 @@
 <itemizedlist>
 <listitem>
 <para
->Pintura: dibuixar diagrames i <quote
->pintar amb els dits</quote
->.</para>
+>Pintura: dibuixar diagrames i «pintar amb els dits».</para>
 </listitem>
 <listitem>
 <para
@@ -172,9 +170,7 @@
 >Obtenir captures de pantalla</title>
 
 <para
->Una <quote
->captura de pantalla</quote
-> és una instantània del que hi ha a la pantalla del vostre ordinador. Pot ser útil per a explicar algunes de les accions que s'han de realitzar per a obtenir el resultat, o per a mostrar el problema que heu trobat. </para>
+>Una «captura de pantalla» és una instantània del que hi ha a la pantalla del vostre ordinador. Pot ser útil per a explicar algunes de les accions que s'han de realitzar per a obtenir el resultat, o per a mostrar el problema que heu trobat. </para>
 <para
 >Per a crear una captura de pantalla llesta per a la seva edició a la finestra del &kolourpaint; podeu utilitzar l'element <menuchoice
 ><guimenu
@@ -451,6 +447,19 @@
 > <link linkend="tool-text"
 >Text</link
 > (T) </member>
+
+<member
+><link linkend="tool-zoom"
+> <guiicon
+> <inlinemediaobject
+> <imageobject
+> <imagedata fileref="tool_zoom.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> </guiicon
+> </link
+> <link linkend="tool-zoom"
+>Zoom</link
+> (Z) </member>
 </simplelist>
 
 </sect1>
@@ -808,7 +817,7 @@ sections; c.f. Connected Lines and Polygon, Rectangles and Selections. -->
 >Utilitzeu les eines de selecció per a dibuixar el contorn d'una selecció.</para>
 
 <para
->Per a moure la selecció, feu-hi clic i arrossegueu-la. La vista principal es desplaçarà en conseqüència, permetent que pugueu moure la selecció a una part de la imatge que actualment no es mostra.</para>
+>Per a moure la selecció, feu-hi clic i arrossegueu-la. La vista principal es desplaçarà en conseqüència, això permet que pugueu moure la selecció a una part de la imatge que actualment no es mostra.</para>
 
 <para
 >Podeu fer <link linkend="image-resize-scale"
@@ -954,6 +963,27 @@ format="PNG"/>
 </sect2>
 </sect1>
 
+<sect1 id="tool-zoom">
+<title
+>Zoom <inlinemediaobject
+> <imageobject>
+<imagedata fileref="tool_zoom.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject>
+</title>
+
+<para
+>El &BER; apropa. The &BDR; allunya.</para>
+<para
+>Arrossegueu amb el &BER; per a apropar una àrea específica.</para>
+
+<tip>
+<para
+>Feu doble clic sobre la icona de l'eina de zoom per a establir el zoom a «Ajusta a la pàgina».</para>
+</tip>
+
+</sect1>
+
 <sect1 id="tool-options">
 <title
 >Opcions comunes de l'eina</title>
@@ -1073,9 +1103,7 @@ format="PNG"/>
 > permet seleccionar un color de la imatge. </para>
 
 <para
->La similitud dels colors permet treballar de manera més eficaç amb imatges i fotografies difuminades, de manera comparable a la característica <quote
->Vareta màgica</quote
-> d'altres programes de pintura. S'aplica a les seleccions transparents, així com les eines <link linkend="tool-flood-fill"
+>La similitud dels colors permet treballar de manera més eficaç amb imatges i fotografies difuminades, de manera comparable a la característica «Vareta màgica» d'altres programes de pintura. S'aplica a les seleccions transparents, així com les eines <link linkend="tool-flood-fill"
 >Omple</link
 >, <link linkend="tool-eraser-clr"
 >Eliminador del color</link
@@ -1338,9 +1366,7 @@ format="PNG"/>
 <para
 >Marqueu <guilabel
 >Habilita</guilabel
-> per a aplicar l'efecte de relleu. Això posarà en relleu les vores i donarà a la imatge o la selecció un <quote
->aspecte de gravat</quote
->. </para>
+> per a aplicar l'efecte de relleu. Això posarà en relleu les vores i donarà a la imatge o la selecció un «aspecte de gravat». </para>
 </sect1>
 
 <sect1 id="image-flatten">
@@ -1513,7 +1539,7 @@ format="PNG"/>
 <para
 >Podeu expressar les dimensions noves en píxels, o com un percentatge de la mida original. Si seleccioneu <guilabel
 >Mantén la relació d'aspecte</guilabel
->, l'amplada i l'alçada s'ampliaran en el mateix percentatge.</para>
+>, l'amplada i l'altura s'ampliaran en el mateix percentatge.</para>
 
 <tip>
 <para
