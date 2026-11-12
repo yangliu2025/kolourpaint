@@ -1,0 +1,993 @@
+kolourpaint (4:24.02.2-0yl1) noble; urgency=medium
+
+  * Build from the noble-kf5 branch: KolourPaint 24.02.2 (the last release
+    that builds with Qt 5 / KDE Frameworks 5) plus the later upstream fixes
+    and translations up to master c027e658, adapted to Qt 5 / KF5.
+  * debian/control: Build-Depends on libkf5crash-dev (crash handler).
+  * Drop debian/watch, debian/salsa-ci.yml and the upstream signing key:
+    the package is built from git, not from release tarballs.
+
+ -- Yang Liu <yangliu2005@mail.com>  Wed, 11 Nov 2026 19:17:47 -0800
+
+kolourpaint (4:23.08.5-0ubuntu3) noble; urgency=medium
+
+  * No-change rebuild for CVE-2024-3094
+
+ -- William Grant <wgrant@ubuntu.com>  Mon, 01 Apr 2024 17:47:41 +1100
+
+kolourpaint (4:23.08.5-0ubuntu2) noble; urgency=medium
+
+  * No-change rebuild against libqt5core5t64
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 15 Mar 2024 05:11:14 +0000
+
+kolourpaint (4:23.08.5-0ubuntu1) noble; urgency=medium
+
+  * New upstream release (23.08.5)
+
+ -- Scarlett Moore <sgmoore@debian.org>  Thu, 22 Feb 2024 10:09:11 -0700
+
+kolourpaint (4:23.08.4-0ubuntu1) noble; urgency=medium
+
+  * New upstream release (23.08.4)
+
+ -- José Manuel Santamaría Lema <panfaust@gmail.com>  Wed, 13 Dec 2023 10:18:22 +0000
+
+kolourpaint (4:23.08.3-0ubuntu1) noble; urgency=medium
+
+  * New upstream release (23.08.3)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 09 Nov 2023 11:38:24 +0000
+
+kolourpaint (4:23.08.2-0ubuntu1) noble; urgency=medium
+
+  * New upstream release (23.08.2)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 26 Oct 2023 12:34:20 +0100
+
+kolourpaint (4:23.08.1-0ubuntu1) mantic; urgency=medium
+
+  * New upstream release (23.08.1)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 14 Sep 2023 12:02:14 +0100
+
+kolourpaint (4:23.08.0-0ubuntu1) mantic; urgency=medium
+
+  * New upstream release (23.08.0)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 24 Aug 2023 12:57:13 +0100
+
+kolourpaint (4:23.07.90-0ubuntu1) mantic; urgency=medium
+
+  * New upstream (beta) release (23.07.80)
+  * New upstream (RC) release (23.07.90)
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 15 Aug 2023 02:36:50 +0100
+
+kolourpaint (4:23.04.3-0ubuntu1) mantic; urgency=medium
+
+  * New upstream release (23.04.3)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 06 Jul 2023 14:50:53 +0100
+
+kolourpaint (4:23.04.2-0ubuntu1) mantic; urgency=medium
+
+  * New upstream release (23.04.1)
+  * New upstream release (23.04.2)
+
+ -- José Manuel Santamaría Lema <panfaust@gmail.com>  Sat, 10 Jun 2023 11:58:59 +0100
+
+kolourpaint (4:22.12.3-0ubuntu1) lunar; urgency=medium
+
+  * New upstream release (22.12.3)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 02 Mar 2023 00:41:00 +0000
+
+kolourpaint (4:22.12.2-0ubuntu1) lunar; urgency=medium
+
+  * New upstream release (22.12.2)
+
+ -- Simon Quigley <tsimonq2@kubuntu.org>  Sat, 11 Feb 2023 14:21:24 -0600
+
+kolourpaint (4:22.12.1-0ubuntu1) lunar; urgency=medium
+
+  * New upstream release (22.12.1)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 05 Jan 2023 11:17:07 +0000
+
+kolourpaint (4:22.12.0-1ubuntu1) lunar; urgency=medium
+
+  * Merge from Debian unstable. Remaining changes:
+    - Kubuntu Vcs and maintainer fields.
+    - Update upstream signing key.
+    - Build dep on libkf5sane-dev (>= 22.12.0~)
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 01 Jan 2023 17:03:14 +0000
+
+kolourpaint (4:22.12.0-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (22.08.3).
+  * Update build-deps and deps with the info from cmake.
+  * Bump Standards-Version to 4.6.1, no change required.
+  * New upstream release (22.11.90).
+  * Update build-deps and deps with the info from cmake.
+  * New upstream release (22.12.0).
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sun, 11 Dec 2022 23:14:50 +0100
+
+kolourpaint (4:22.12.0-0ubuntu1) lunar; urgency=medium
+
+  * New upstream release (22.12.0)
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 11 Dec 2022 12:20:45 +0000
+
+kolourpaint (4:22.04.3-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream release (22.04.3)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 07 Jul 2022 09:30:24 +0100
+
+kolourpaint (4:22.04.2-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream release (22.04.2)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 09 Jun 2022 08:04:44 +0100
+
+kolourpaint (4:22.04.1-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream release (22.04.1)
+
+ -- Rik Mills <rikmills@kde.org>  Wed, 11 May 2022 21:03:38 +0100
+
+kolourpaint (4:22.04.0-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream release (22.04.0)
+
+ -- Rik Mills <rikmills@kde.org>  Mon, 02 May 2022 06:51:07 +0100
+
+kolourpaint (4:21.12.3-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (21.12.3).
+  * As were’re building with KF5Sane, add versioned build dependency matching
+    cmake to ensure it is really used.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sun, 06 Mar 2022 14:13:48 +0100
+
+kolourpaint (4:21.12.3-0ubuntu1) jammy; urgency=medium
+
+  * New upstream release (21.12.3)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 03 Mar 2022 10:13:45 +0000
+
+kolourpaint (4:21.12.2-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (21.12.2).
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Wed, 02 Mar 2022 23:43:15 +0100
+
+kolourpaint (4:21.12.2-0ubuntu1) jammy; urgency=medium
+
+  [ José Manuel Santamaría Lema ]
+  * Update upstream signing key
+
+  [ Rik Mills ]
+  * New upstream release (21.12.2)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 03 Feb 2022 07:20:20 +0000
+
+kolourpaint (4:21.12.1-0ubuntu1) jammy; urgency=medium
+
+  * New upstream release (21.12.1)
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 06 Jan 2022 10:28:10 +0000
+
+kolourpaint (4:21.12.0-0ubuntu1) jammy; urgency=medium
+
+  [ Rik Mills ]
+  * New upstream release (21.12.0)
+  * Set maintainer to Kubuntu Developers.
+
+  [ José Manuel Santamaría Lema ]
+  * Update upstream signing key
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 09 Dec 2021 11:25:21 +0000
+
+kolourpaint (4:21.11.90-0ubuntu2) jammy; urgency=medium
+
+  * Add Kubuntu Vcs fields.
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 28 Nov 2021 19:09:55 +0000
+
+kolourpaint (4:21.11.90-0ubuntu1) jammy; urgency=medium
+
+  * New upstream (RC) release (21.11.90)
+
+ -- Rik Mills <rikmills@kde.org>  Fri, 26 Nov 2021 13:20:33 +0000
+
+kolourpaint (4:21.11.80-0ubuntu1) jammy; urgency=medium
+
+  * New upstream (beta) release (21.11.80)
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 21 Nov 2021 18:28:17 +0000
+
+kolourpaint (4:21.08.3-0ubuntu1) jammy; urgency=medium
+
+  * New upstream release (21.08.3)
+
+ -- Rik Mills <rikmills@kde.org>  Mon, 15 Nov 2021 09:42:59 +0000
+
+kolourpaint (4:21.08.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Drop the transitional kolourpaint4, no more needed after two Debian stable
+    releases.
+  * Use execute_after_dh_auto_install to avoid invoking dh_auto_install
+    manually.
+
+ -- Pino Toscano <pino@debian.org>  Fri, 08 Oct 2021 23:29:02 +0200
+
+kolourpaint (4:21.08.1-1) unstable; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (21.08.1).
+  * Bump Standards-Version to 4.6.0, no change required.
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 08 Sep 2021 12:44:34 +0900
+
+kolourpaint (4:21.08.0-1) unstable; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (21.08.0).
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 16 Aug 2021 16:20:40 +0900
+
+kolourpaint (4:21.04.0-1) experimental; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (21.04.0).
+  * Borrow minimal upstream signing key from k3b.
+  * Drop Kubuntu from maintainer name.
+  * Added myself to the uploaders.
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 28 Apr 2021 10:38:28 +0900
+
+kolourpaint (4:20.12.0-1) unstable; urgency=medium
+
+  * New upstream release (20.12.0).
+  * Refresh copyright information.
+  * Bump Standards-Version to 4.5.1, no change required.
+  * Bump debhelper compatibility level to 13.
+  * Refresh upstream metadata.
+  * Update project homepage.
+  * Removed Eshat Cakar, Maximiliano Curia from the uploaders, thanks
+    for your work on the package!
+  * Added myself to the uploaders.
+  * Drop kde-l10n migration rules, not needed anymore after 2 stable releases.
+  * Build with hardening=+all build hardening flag.
+  * Borrow minimal upstream signing key from k3b.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 25 Dec 2020 00:19:14 +0100
+
+kolourpaint (4:20.04.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Update the build dependencies according to the upstream build system:
+    - bump KF packages to 5.67.0
+    - remove libkf5iconthemes-dev, and libkf5kdelibs4support-dev, no more
+      needed
+    - add libkf5jobwidgets-dev
+  * Switch from dhmk to the dh sequencer:
+    - invoke the dh sequencer using the kf5 addon
+    - call the right debhelper command instead of $(overridden_command)
+    - manually force the generation of the substvars for the kde-l10n breaks
+  * Bump the debhelper compatibility to 12:
+    - switch the debhelper build dependency to debhelper-compat 12
+    - remove debian/compat
+  * Add Rules-Requires-Root: no.
+  * Bump Standards-Version to 4.5.0, no changes required.
+
+ -- Pino Toscano <pino@debian.org>  Sat, 06 Jun 2020 07:41:00 +0200
+
+kolourpaint (4:19.12.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Update watch file to the new release-service location.
+  * Update the build dependencies according to the upstream build system:
+    - bump Qt to 5.11.0
+    - bump KF packages to 5.58.0
+
+ -- Pino Toscano <pino@debian.org>  Thu, 09 Jan 2020 08:34:36 +0100
+
+kolourpaint (4:19.08.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.4.1, no changes required.
+  * Add the configuration for the CI on salsa.
+  * Update the build dependencies according to the upstream build system:
+    - bump cmake to 3.10.0
+    - add libkf5doctools-dev, libkf5guiaddons-dev, libkf5i18n-dev,
+      libkf5iconthemes-dev, libkf5kio-dev, libkf5textwidgets-dev,
+      libkf5widgetsaddons-dev, and libkf5xmlgui-dev
+    - explicitly add gettext
+
+ -- Pino Toscano <pino@debian.org>  Sun, 06 Oct 2019 22:39:45 +0200
+
+kolourpaint (4:18.04.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Switch Vcs-* fields to salsa.debian.org.
+  * Bump the debhelper compatibility to 11:
+    - bump the debhelper build dependency to 11~
+    - bump compat to 11
+  * Fix Format in copyright.
+  * Bump Standards-Version to 4.1.4, no changes required.
+
+ -- Pino Toscano <pino@debian.org>  Tue, 08 May 2018 11:01:26 +0200
+
+kolourpaint (4:17.08.3-1) unstable; urgency=medium
+
+  * Team upload.
+  * Upload to unstable.
+  * New upstream release.
+  * Adjust l10npkgs_firstversion_ok to the version where kde-l10n will
+    drop translations.
+  * Bump Standards-Version to 4.1.1, no changes required.
+  * Simplify watch file, and switch it to https.
+  * Add a transitional kolourpaint4 package.
+  * Update lintian overrides.
+
+ -- Pino Toscano <pino@debian.org>  Sat, 02 Dec 2017 15:31:55 +0100
+
+kolourpaint (4:17.08.1-1) experimental; urgency=medium
+
+  * New upstream release (17.08.1)
+  * Bump Standards-Version to 4.1.0.
+  * Update upstream metadata
+  * Update build-deps and deps with the info from cmake
+  * Release to experimental
+
+ -- Maximiliano Curia <maxy@debian.org>  Tue, 12 Sep 2017 22:41:20 +0200
+
+kolourpaint (4:17.08.1-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Tue, 05 Sep 2017 14:02:53 +0000
+
+kolourpaint (4:17.08.0-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Thu, 17 Aug 2017 09:38:15 +0000
+
+kolourpaint (4:17.04.3-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Wed, 12 Jul 2017 10:22:35 +0000
+
+kolourpaint (4:17.04.2-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Wed, 07 Jun 2017 12:22:46 +0000
+
+kolourpaint (4:17.04.1-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Thu, 11 May 2017 18:21:54 +0000
+
+kolourpaint (4:17.04.0-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Wed, 19 Apr 2017 11:06:06 +0000
+
+kolourpaint (4:16.12.3-0neon) xenial; urgency=medium
+
+  * New release
+
+ -- Neon CI <neon@kde.org>  Wed, 12 Apr 2017 13:18:54 +0000
+
+kolourpaint (4:16.08.3-1) unstable; urgency=medium
+
+  * New upstream release (16.08.3)
+
+ -- Maximiliano Curia <maxy@debian.org>  Wed, 23 Nov 2016 21:14:20 +0100
+
+kolourpaint (4:16.08.2-1) unstable; urgency=medium
+
+  [ Automatic packaging ]
+  * Update build-deps and deps with the info from cmake
+
+  [ Maximiliano Curia ]
+  * New upstream release (16.08.2)
+  * Drop kde4 build deps
+
+ -- Maximiliano Curia <maxy@debian.org>  Tue, 18 Oct 2016 09:23:52 +0200
+
+kolourpaint (4:16.04.0-1) unstable; urgency=medium
+
+  [ Automatic packaging ]
+  * Bump Standards-Version to 3.9.8
+
+  [ Maximiliano Curia ]
+  * New upstream release (15.12.2).
+  * Add upstream metadata (DEP-12)
+  * debian/control: Update Vcs-Browser and Vcs-Git fields
+
+ -- Maximiliano Curia <maxy@debian.org>  Sat, 21 May 2016 20:27:15 +0200
+
+kolourpaint (4:15.12.1-1) experimental; urgency=medium
+
+  * New upstream release (15.12.0).
+  * New upstream release (15.12.1).
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 01 Feb 2016 10:24:33 +0100
+
+kolourpaint (4:15.08.3-1) unstable; urgency=medium
+
+  * New upstream release (15.08.3).
+
+ -- Maximiliano Curia <maxy@debian.org>  Wed, 02 Dec 2015 12:40:08 +0100
+
+kolourpaint (4:15.08.0-1) unstable; urgency=medium
+
+  * New upstream release (15.04.0).
+  * New upstream release (15.04.1).
+  * New upstream release (15.08.0).
+
+ -- Maximiliano Curia <maxy@debian.org>  Sat, 19 Sep 2015 19:11:08 +0200
+
+kolourpaint (4:14.12.3-1) experimental; urgency=medium
+
+  * New upstream release (14.12.3).
+
+ -- Maximiliano Curia <maxy@debian.org>  Sun, 29 Mar 2015 15:13:36 +0200
+
+kolourpaint (4:14.12.3-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Fri, 13 Mar 2015 14:36:24 -0700
+
+kolourpaint (4:14.12.2-1) experimental; urgency=medium
+
+  * Prepare Debian release.
+  * Bump Standards-Version to 3.9.6, no changes needed.
+
+ -- Maximiliano Curia <maxy@debian.org>  Thu, 19 Feb 2015 11:12:22 +0100
+
+kolourpaint (4:14.12.2-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release
+  * Remove unstable from watch file, uscan fails with
+    remote site does not even have current version
+  * Remove kdelibs5-dev depend version as there was not a new release.
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Tue, 10 Feb 2015 09:40:31 -0800
+
+kolourpaint (4:14.11.97-0ubuntu1) vivid; urgency=medium
+
+  * Initial release for KDE applications 14.12 series
+   - Change maintainer to Debian/Kubuntu
+   - Fix Watch file applications locations
+   - Fix VCS for new kde-applications location
+  * Debian merge, no remaining changes.
+  * New upstream release candidate.
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Sat, 29 Nov 2014 10:56:18 +0000
+
+kolourpaint (4:4.14.2-1) unstable; urgency=medium
+
+  * New upstream release (4.14.2).
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 20 Oct 2014 17:13:31 +0200
+
+kolourpaint (4:4.14.2-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Fri, 10 Oct 2014 05:38:42 -0700
+
+kolourpaint (4:4.14.1-1) unstable; urgency=medium
+
+  * New upstream release (4.14.1).
+
+ -- Maximiliano Curia <maxy@debian.org>  Wed, 17 Sep 2014 09:44:45 +0200
+
+kolourpaint (4:4.14.1-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+
+ -- Scarlett Clark <scarlett@scarlettgatelyclark.com>  Mon, 22 Sep 2014 17:24:44 +0200
+
+kolourpaint (4:4.14.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Maximiliano Curia <maxy@debian.org>  Fri, 22 Aug 2014 20:28:05 +0200
+
+kolourpaint (4:4.14.0-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 20 Aug 2014 13:16:58 +0200
+
+kolourpaint (4:4.13.97-0ubuntu1) utopic; urgency=medium
+
+  * New upstream beta release RC
+
+ -- Scarlett Clark <scarlett@scarlettgatelyclark.com>  Fri, 01 Aug 2014 16:59:29 +0200
+
+kolourpaint (4:4.13.95-0ubuntu1) utopic; urgency=medium
+
+  * New upstream beta release
+
+ -- Scarlett Clark <scarlett@scarlettgatelyclark.com>  Wed, 30 Jul 2014 18:26:25 +0200
+
+kolourpaint (4:4.13.90-0ubuntu1) utopic; urgency=medium
+
+  * New upstream beta release
+
+ -- Scarlett Clark <scarlett@scarlettgatelyclark.com>  Thu, 24 Jul 2014 23:20:10 +0200
+
+kolourpaint (4:4.13.2-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+  * Merge with Debian, no changes
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 17 Jun 2014 10:41:55 +0100
+
+kolourpaint (4:4.13.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Maximiliano Curia <maxy@debian.org>  Thu, 22 May 2014 15:54:12 +0200
+
+kolourpaint (4:4.12.2-2) unstable; urgency=medium
+
+  * Release to unstable
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 28 Apr 2014 12:25:43 +0200
+
+kolourpaint (4:4.12.2-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Bump kde-sc-dev-latest build dependency.
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 10 Feb 2014 11:32:39 +0100
+
+kolourpaint (4:4.11.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump Standards-Version to 3.9.5, no changes needed.
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 03 Feb 2014 11:03:41 +0100
+
+kolourpaint (4:4.11.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update build dependencies.
+
+ -- Maximiliano Curia <maxy@debian.org>  Sat, 09 Nov 2013 12:38:23 +0100
+
+kolourpaint (4:4.11.2-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Maximiliano Curia <maxy@debian.org>  Tue, 08 Oct 2013 12:14:48 +0200
+
+kolourpaint (4:4.10.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Maximiliano Curia <maxy@debian.org>  Fri, 12 Jul 2013 09:22:22 +0200
+
+kolourpaint (4:4.10.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+  [ Pino Toscano ]
+  * Add the pkg-config build dependency.
+
+  [ Maximiliano Curia ]
+  * Bump debhelper build-dep and compat to 9.
+  * Bump Standards-Version to 3.9.4.
+  * Update vcs fields.
+  * Add myself to uploaders.
+
+ -- Maximiliano Curia <maxy@debian.org>  Fri, 14 Jun 2013 13:58:55 +0200
+
+kolourpaint (4:4.10.2-1) experimental; urgency=low
+
+  [ Diane Trout ]
+  * New upstream release.
+  * Bump kde-sc-dev-latest to latest build dependency 4:4.10.2
+  * Bump kdelibs5-dev build dependency to 4:4.10
+
+  [ Sune Vuorela ]
+  * Add myself to uploaders.
+
+ -- Sune Vuorela <sune@debian.org>  Mon, 08 Apr 2013 06:45:20 +0000
+
+kolourpaint (4:4.8.4-1) unstable; urgency=low
+
+  * New upstream release.
+
+  [ Eshat Cakar ]
+  * Bump kde-sc-dev-latest build dependency to 4:4.8.4.
+  * Bump kdelibs5-dev build dependency to 4:4.8.
+  * Add watch file.
+  * Bump Standards-Version to 3.9.3, no further changes.
+
+ -- Eshat Cakar <info@eshat.de>  Sun, 17 Jun 2012 00:49:32 +0200
+
+kolourpaint (4:4.7.4-2) unstable; urgency=low
+
+  * Team upload. Upload to unstable.
+
+ -- Pino Toscano <pino@debian.org>  Tue, 06 Mar 2012 22:47:09 +0100
+
+kolourpaint (4:4.7.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+  [ Eshat Cakar ]
+  * Bump kde-sc-dev-latest build dependency to 4:4.7.4.
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 18 Dec 2011 01:37:39 +0100
+
+kolourpaint (4:4.7.2-1) experimental; urgency=low
+
+  [ Eshat Cakar ]
+  * Initial release. Start from the Kubuntu packaging, thanks!
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sat, 03 Dec 2011 10:44:10 -0300
+
+kolourpaint (4:4.13.0-0ubuntu1) trusty; urgency=medium
+
+  * New upstream KDE Software Compilation release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 10 Apr 2014 22:09:43 +0100
+
+kolourpaint (4:4.12.97-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release candidate
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Wed, 02 Apr 2014 11:34:27 +0200
+
+kolourpaint (4:4.12.95-0ubuntu1) trusty; urgency=medium
+
+  * New upstream beta release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Sun, 23 Mar 2014 12:35:52 +0100
+
+kolourpaint (4:4.12.90-0ubuntu1) trusty; urgency=medium
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 19 Mar 2014 11:06:25 +0000
+
+kolourpaint (4:4.12.3-0ubuntu1) trusty; urgency=medium
+
+  * New upstream bugfix release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Tue, 04 Mar 2014 20:56:12 +0100
+
+kolourpaint (4:4.12.2-0ubuntu1) trusty; urgency=medium
+
+  * New upstream bugfix release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Wed, 05 Feb 2014 00:08:21 +0000
+
+kolourpaint (4:4.12.1-0ubuntu1) trusty; urgency=low
+
+  * New upstream bugfix release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Thu, 16 Jan 2014 08:24:16 +0000
+
+kolourpaint (4:4.12.0-0ubuntu1) trusty; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 18 Dec 2013 17:17:12 +0000
+
+kolourpaint (4:4.11.97-0ubuntu1) trusty; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 29 Nov 2013 13:17:43 +0000
+
+kolourpaint (4:4.11.95-0ubuntu1) trusty; urgency=low
+
+  * New upstream beta release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Mon, 25 Nov 2013 18:14:56 +0100
+
+kolourpaint (4:4.11.80-0ubuntu1) trusty; urgency=low
+
+  * New upstream beta release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Sat, 23 Nov 2013 17:45:42 +0100
+
+kolourpaint (4:4.11.2-0ubuntu1) saucy; urgency=low
+
+  * New upstream bugfix release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 30 Sep 2013 14:33:02 +0100
+
+kolourpaint (4:4.11.1-0ubuntu1) saucy; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Fri, 06 Sep 2013 22:27:43 +0100
+
+kolourpaint (4:4.11.0-0ubuntu1) saucy; urgency=low
+
+  [ Howard Chan ]
+  * New upstream release
+
+  [ Jonathan Riddell ]
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 14 Aug 2013 00:22:52 +0100
+
+kolourpaint (4:4.10.97-0ubuntu1) saucy; urgency=low
+
+  * New upstream RC 2 release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 26 Jul 2013 19:43:38 +0100
+
+kolourpaint (4:4.10.95-0ubuntu1) saucy; urgency=low
+
+  * New upstream RC release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Fri, 19 Jul 2013 12:32:48 +0000
+
+kolourpaint (4:4.10.90-0ubuntu1) saucy; urgency=low
+
+  * New upstream bet release
+
+ -- Michał Zając <quintasan@kubuntu.org>  Fri, 28 Jun 2013 18:19:12 +0100
+
+kolourpaint (4:4.10.80-0ubuntu1) saucy; urgency=low
+
+  * New upstream release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Fri, 21 Jun 2013 01:27:52 +0100
+
+kolourpaint (4:4.10.4-0ubuntu1) saucy-proposed; urgency=low
+
+  * New upstream bugfix release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Fri, 07 Jun 2013 00:38:32 +0100
+
+kolourpaint (4:4.10.3-0ubuntu1) saucy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 23 May 2013 11:04:48 +0000
+
+kolourpaint (4:4.10.2-1) experimental; urgency=low
+
+  [ Diane Trout ]
+  * New upstream release.
+  * Bump kde-sc-dev-latest to latest build dependency 4:4.10.2
+  * Bump kdelibs5-dev build dependency to 4:4.10
+
+  [ Sune Vuorela ]
+  * Add myself to uploaders.
+
+ -- Sune Vuorela <sune@debian.org>  Mon, 08 Apr 2013 06:45:20 +0000
+
+kolourpaint (4:4.10.2-0ubuntu1) raring; urgency=low
+
+  * New upstream bugfix release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 31 Mar 2013 14:53:41 +0200
+
+kolourpaint (4:4.10.1-0ubuntu1) raring-proposed; urgency=low
+
+  * New upstream bugfix release
+  * Fix copyright syntax
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Tue, 05 Mar 2013 16:34:46 +0000
+
+kolourpaint (4:4.10.0-0ubuntu1) raring-proposed; urgency=low
+
+  * New upstream release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Wed, 06 Feb 2013 11:59:44 +0000
+
+kolourpaint (4:4.9.98-0ubuntu1) raring-proposed; urgency=low
+
+  * New upstream release candidate
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 18 Jan 2013 15:47:55 +0000
+
+kolourpaint (4:4.9.97-0ubuntu1) raring; urgency=low
+
+  * New upstream release candidate
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Thu, 03 Jan 2013 22:39:52 +0100
+
+kolourpaint (4:4.9.95-0ubuntu1) raring; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 18 Dec 2012 23:36:09 +0000
+
+kolourpaint (4:4.9.90-0ubuntu1) raring-proposed; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 07 Dec 2012 18:01:59 +0000
+
+kolourpaint (4:4.9.80-0ubuntu1) raring; urgency=low
+
+  * New upstream beta release
+  * Build-dep on pkg-config
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 19 Nov 2012 16:01:37 +0000
+
+kolourpaint (4:4.9.3-0ubuntu1) raring; urgency=low
+
+  * New upstream release (LP: #1074747)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Tue, 06 Nov 2012 22:39:01 +0100
+
+kolourpaint (4:4.9.2-0ubuntu1) quantal-proposed; urgency=low
+
+  * New upstream bugfix release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 02 Oct 2012 15:30:38 +0100
+
+kolourpaint (4:4.9.1-0ubuntu1) quantal; urgency=low
+
+  * New upstream release
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Mon, 10 Sep 2012 18:35:32 +0530
+
+kolourpaint (4:4.9.0-0ubuntu1) quantal; urgency=low
+
+  * Use direct build-depends versions rather than kde-sc-dev-latest
+  * New upstream release
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 26 Jul 2012 22:29:16 +0100
+
+kolourpaint (4:4.8.90-0ubuntu1) quantal; urgency=low
+
+  * New upstream beta release.
+
+ -- Felix Geyer <debfx@ubuntu.com>  Mon, 11 Jun 2012 23:34:30 +0200
+
+kolourpaint (4:4.8.80-0ubuntu1) quantal; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 06 Jun 2012 14:16:02 +0100
+
+kolourpaint (4:4.8.4-1) unstable; urgency=low
+
+  * New upstream release.
+
+  [ Eshat Cakar ]
+  * Bump kde-sc-dev-latest build dependency to 4:4.8.4.
+  * Bump kdelibs5-dev build dependency to 4:4.8.
+  * Add watch file.
+  * Bump Standards-Version to 3.9.3, no further changes.
+
+ -- Eshat Cakar <info@eshat.de>  Sun, 17 Jun 2012 00:49:32 +0200
+
+kolourpaint (4:4.8.2-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Mon, 02 Apr 2012 18:35:46 +0200
+
+kolourpaint (4:4.8.1-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 04 Mar 2012 20:37:36 +0100
+
+kolourpaint (4:4.8.0-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Mon, 23 Jan 2012 21:41:54 +0100
+
+kolourpaint (4:4.7.97-0ubuntu1) precise; urgency=low
+
+  * New upstream release candidate
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 05 Jan 2012 12:18:29 +0000
+
+kolourpaint (4:4.7.95-0ubuntu1) precise; urgency=low
+
+  * New upstream release candidate
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sat, 24 Dec 2011 20:42:55 +0100
+
+kolourpaint (4:4.7.90-0ubuntu1) precise; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 16 Dec 2011 13:14:42 +0000
+
+kolourpaint (4:4.7.4-2) unstable; urgency=low
+
+  * Team upload. Upload to unstable.
+
+ -- Pino Toscano <pino@debian.org>  Tue, 06 Mar 2012 22:47:09 +0100
+
+kolourpaint (4:4.7.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+  [ Eshat Cakar ]
+  * Bump kde-sc-dev-latest build dependency to 4:4.7.4.
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 18 Dec 2011 01:37:39 +0100
+
+kolourpaint (4:4.7.3-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+  * Merge with Debian Git, no changes
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 23 Nov 2011 23:47:02 +0000
+
+kolourpaint (4:4.7.2-1) experimental; urgency=low
+
+  [ Eshat Cakar ]
+  * Initial release. Start from the Kubuntu packaging, thanks!
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sat, 03 Dec 2011 10:44:10 -0300
+
+kolourpaint (4:4.7.2-0r1) raring; urgency=low
+
+  * Initial release. Start from the Kubuntu packaging, thanks!
+
+ -- Eshat Cakar <info@eshat.de>  Tue, 04 Oct 2011 02:31:41 +0200
+
+kolourpaint (4:4.7.1-0ubuntu2) oneiric; urgency=low
+
+  * No-change rebuild so translations aren't stripped from .desktop
+    files anymore.
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 16 Sep 2011 01:01:30 +0200
+
+kolourpaint (4:4.7.1-0ubuntu1) oneiric; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Kolberg <bulldog98@kubuntu-de.org>  Fri, 09 Sep 2011 23:47:21 -0400
+
+kolourpaint (4:4.7.0-0ubuntu1) oneiric; urgency=low
+
+  * New upstream release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Mon, 25 Jul 2011 00:06:31 +0200
+
+kolourpaint (4:4.6.90+repack-0ubuntu1) oneiric; urgency=low
+
+  [ Harald Sitter ]
+  * Initial release (moved out of kdegraphics)
+  * Repack upstream source to include copies of LGPL and FDL
+
+  [ Felix Geyer ]
+  * Drop unneeded dh_shlibdeps override.
+  * Remove shlib symlink libkolourpaint_lgpl.so.
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Sun, 10 Jul 2011 12:20:39 +0200

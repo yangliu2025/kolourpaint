@@ -1,0 +1,4 @@
+# private library
+kolourpaint: package-name-doesnt-match-sonames libkolourpaint-lgpl5
+# private library
+kolourpaint: no-symbols-control-file

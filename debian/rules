@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@ --with kf5
+
+execute_after_dh_auto_install:
+	# remove shlib symlink as this isn't a dev package
+	rm debian/kolourpaint/usr/lib/*/libkolourpaint_lgpl.so
