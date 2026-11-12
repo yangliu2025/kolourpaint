@@ -157,6 +157,7 @@ set(kolourpaint_lib1_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/kpEnvironmentBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/tools/kpToolEnvironment.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/environments/tools/selection/kpToolSelectionEnvironment.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpMessageBoxMnemonics.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpModernLook.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpSetOverrideCursorSaver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/generic/kpWidgetMapper.cpp

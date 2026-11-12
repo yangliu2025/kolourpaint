@@ -7,6 +7,7 @@
 
 #include <KAboutData>
 
+#include "generic/kpMessageBoxMnemonics.h"
 #include "generic/kpModernLook.h"
 #include "kpVersion.h"
 #include "mainWindow/kpMainWindow.h"
@@ -90,6 +91,7 @@ int main(int argc, char *argv[])
     }
 
     kpModernLook::initialize();
+    kpMessageBoxMnemonics::install();
 
     if (app.isSessionRestored()) {
         // Creates a kpMainWindow using the default constructor and then
