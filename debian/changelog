@@ -1,3 +1,15 @@
+kolourpaint (4:24.02.2-0yl3) noble; urgency=medium
+
+  * New modern look, on by default and switchable under Settings > Modern
+    Look: follows the desktop's dark/light mode and accent color, with
+    flat rounded controls, the canvas centered on a workspace with a soft
+    shadow, round color swatches and a round foreground/background color
+    button.  KOLOURPAINT_COLOR_SCHEME=light or dark forces the mode.
+  * The color box title no longer turns into "Colors: &KolourPaint
+    Defaults" once the window is used.
+
+ -- Yang Liu <yangliu2005@mail.com>  Wed, 11 Nov 2026 22:09:10 -0800
+
 kolourpaint (4:24.02.2-0yl2) noble; urgency=medium
 
   * New Arrow tool (shortcut W) for MS Paint-style block arrows pointing
