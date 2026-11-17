@@ -239,7 +239,7 @@ private Q_SLOTS:
     void slotBeganDocResize();
     void slotContinuedDocResize(const QSize &size);
     void slotCancelledDocResize();
-    void slotEndedDocResize(const QSize &size);
+    void slotEndedDocResize(const QSize &size, const QPoint &oldImageOffset);
 
     void slotDocResizeMessageChanged(const QString &string);
 

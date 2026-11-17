@@ -33,9 +33,14 @@ class kpGrip : public QWidget
 
 public:
     enum GripType {
-        Right = 1,
-        Bottom = 2,
-        BottomRight = Right | Bottom
+        Left = 1,
+        Right = 2,
+        Top = 4,
+        Bottom = 8,
+        TopLeft = Top | Left,
+        TopRight = Top | Right,
+        BottomLeft = Bottom | Left,
+        BottomRight = Bottom | Right
     };
 
     kpGrip(GripType type, QWidget *parent);
@@ -122,7 +127,7 @@ Q_SIGNALS:
     void beganDocResize();
     void continuedDocResize(const QSize &size);
     void cancelledDocResize();
-    void endedDocResize(const QSize &size);
+    void endedDocResize(const QSize &size, const QPoint &oldImageOffset);
 
     // (string.isEmpty() if kpViewScrollableContainer has nothing to say)
     void statusMessageChanged(const QString &string);
@@ -143,20 +148,25 @@ private:
     void connectGripSignals(kpGrip *grip);
 
     QSize newDocSize(int viewDX, int viewDY) const;
+    QPoint newDocOffset(int viewDX, int viewDY) const;
 
     void calculateDocResizingGrip();
     kpGrip *docResizingGrip() const;
 
-    int bottomResizeLineWidth() const;
+    int leftResizeLineWidth() const;
     int rightResizeLineWidth() const;
+    int topResizeLineWidth() const;
+    int bottomResizeLineWidth() const;
 
-    QRect bottomResizeLineRect() const;
+    QRect leftResizeLineRect() const;
     QRect rightResizeLineRect() const;
-    QRect bottomRightResizeLineRect() const;
+    QRect topResizeLineRect() const;
+    QRect bottomResizeLineRect() const;
 
     QRect mapViewToViewport(const QRect &viewRect);
 
-    void updateResizeLines(int viewX, int viewY, int viewDX, int viewDY);
+    void updateResizeLines(int viewDX, int viewDY);
+    void clearResizeLines();
 
     void disconnectViewSignals();
     void connectViewSignals();
@@ -184,12 +194,15 @@ private Q_SLOTS:
 private:
     kpView *m_view;
     kpOverlay *m_overlay;
-    kpGrip *m_bottomGrip, *m_rightGrip, *m_bottomRightGrip;
+    kpGrip *m_topLeftGrip, *m_topGrip, *m_topRightGrip;
+    kpGrip *m_leftGrip, *m_rightGrip;
+    kpGrip *m_bottomLeftGrip, *m_bottomGrip, *m_bottomRightGrip;
     kpGrip *m_docResizingGrip;
     QTimer *m_dragScrollTimer;
     int m_zoomLevel;
     bool m_scrollTimerRunOnce;
-    int m_resizeRoundedLastViewX, m_resizeRoundedLastViewY;
+    int m_resizeRoundedLastViewLeft, m_resizeRoundedLastViewTop;
+    int m_resizeRoundedLastViewRight, m_resizeRoundedLastViewBottom;
     int m_resizeRoundedLastViewDX, m_resizeRoundedLastViewDY;
     bool m_haveMovedFromOriginalDocSize;
     QString m_gripStatusMessage;

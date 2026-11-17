@@ -12,6 +12,8 @@
 #include "imagelib/kpColor.h"
 #include "imagelib/kpImage.h"
 
+#include <QPoint>
+
 class QSize;
 
 class kpAbstractSelection;
@@ -28,7 +30,8 @@ public:
         SmoothScale
     };
 
-    kpTransformResizeScaleCommand(bool actOnSelection, int newWidth, int newHeight, Type type, kpCommandEnvironment *environ);
+    kpTransformResizeScaleCommand(
+        bool actOnSelection, int newWidth, int newHeight, Type type, kpCommandEnvironment *environ, const QPoint &oldImageOffset = QPoint());
     ~kpTransformResizeScaleCommand() override;
 
     QString name() const override;
@@ -63,6 +66,7 @@ protected:
     kpColor m_backgroundColor;
 
     int m_oldWidth, m_oldHeight;
+    QPoint m_oldImageOffset;
     bool m_actOnTextSelection;
     kpImage m_oldImage, m_oldRightImage, m_oldBottomImage;
     kpAbstractSelection *m_oldSelectionPtr;

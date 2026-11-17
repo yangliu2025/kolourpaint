@@ -532,7 +532,7 @@ void kpMainWindow::slotCancelledDocResize()
 //---------------------------------------------------------------------
 
 // private slot
-void kpMainWindow::slotEndedDocResize(const QSize &size)
+void kpMainWindow::slotEndedDocResize(const QSize &size, const QPoint &oldImageOffset)
 {
 #define DOC_RESIZE_COMPLETED()                                                                                                                                 \
     {                                                                                                                                                          \
@@ -577,7 +577,8 @@ void kpMainWindow::slotEndedDocResize(const QSize &size)
                                                                         d->docResizeWidth,
                                                                         d->docResizeHeight,
                                                                         kpTransformResizeScaleCommand::Resize,
-                                                                        commandEnvironment()));
+                                                                        commandEnvironment(),
+                                                                        oldImageOffset));
 
         saveDefaultDocSize(QSize(d->docResizeWidth, d->docResizeHeight));
     }

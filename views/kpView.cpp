@@ -316,10 +316,12 @@ void kpView::updateBuddyViewScrollableContainerRectangle()
 
         QRect newRect;
         if (isBuddyViewScrollableContainerRectangleShown() && buddyViewScrollableContainer() && buddyView()) {
-            QRect docRect = buddyView()->transformViewToDoc(QRect(buddyViewScrollableContainer()->horizontalScrollBar()->value(),
-                                                                  buddyViewScrollableContainer()->verticalScrollBar()->value(),
-                                                                  qMin(buddyView()->width(), buddyViewScrollableContainer()->viewport()->width()),
-                                                                  qMin(buddyView()->height(), buddyViewScrollableContainer()->viewport()->height())));
+            const QPoint visibleTopLeft =
+                buddyView()->mapFrom(buddyViewScrollableContainer()->viewport(), QPoint(0, 0));
+            QRect docRect = buddyView()->transformViewToDoc(
+                QRect(QPoint(qMax(0, visibleTopLeft.x()), qMax(0, visibleTopLeft.y())),
+                      QSize(qMin(buddyView()->width(), buddyViewScrollableContainer()->viewport()->width()),
+                            qMin(buddyView()->height(), buddyViewScrollableContainer()->viewport()->height()))));
 
             QRect viewRect = this->transformDocToView(docRect);
 

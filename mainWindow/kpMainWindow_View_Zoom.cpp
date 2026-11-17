@@ -308,8 +308,9 @@ void kpMainWindow::zoomTo(int zoomLevel, bool centerUnderCursor)
             viewX = viewPoint.x();
             viewY = viewPoint.y();
         } else {
-            viewX = d->scrollView->horizontalScrollBar()->value() + qMin(d->mainView->width(), d->scrollView->viewport()->width()) / 2;
-            viewY = d->scrollView->verticalScrollBar()->value() + qMin(d->mainView->height(), d->scrollView->viewport()->height()) / 2;
+            const QPoint viewCenter = d->mainView->mapFrom(d->scrollView->viewport(), d->scrollView->viewport()->rect().center());
+            viewX = viewCenter.x();
+            viewY = viewCenter.y();
         }
 
         int newCenterX = viewX * zoomLevel / d->mainView->zoomLevelX();
@@ -323,8 +324,8 @@ void kpMainWindow::zoomTo(int zoomLevel, bool centerUnderCursor)
         qCDebug(kpLogMainWindow) << "\tnewCenterX=" << newCenterX << " newCenterY=" << newCenterY;
 #endif
 
-        d->scrollView->horizontalScrollBar()->setValue(newCenterX - (d->scrollView->viewport()->width() / 2));
-        d->scrollView->verticalScrollBar()->setValue(newCenterY - (d->scrollView->viewport()->height() / 2));
+        d->scrollView->horizontalScrollBar()->setValue(d->mainView->x() + newCenterX - (d->scrollView->viewport()->width() / 2));
+        d->scrollView->verticalScrollBar()->setValue(d->mainView->y() + newCenterY - (d->scrollView->viewport()->height() / 2));
 
         if (centerUnderCursor && targetDocAvail && d->viewManager && d->viewManager->viewUnderCursor()) {
             // Move the mouse cursor so that it is still above the same
@@ -422,8 +423,8 @@ void kpMainWindow::zoomToRect(const QRect &normalizedDocRect, bool accountForGri
     const int slack = 0;
 
     // The grip and slack are in view coordinates but are never zoomed.
-    const int viewWidth = usableScrollArea.width() - (accountForGrips ? kpGrip::Size : 0) - slack;
-    const int viewHeight = usableScrollArea.height() - (accountForGrips ? kpGrip::Size : 0) - slack;
+    const int viewWidth = usableScrollArea.width() - (accountForGrips ? 2 * kpGrip::Size : 0) - slack;
+    const int viewHeight = usableScrollArea.height() - (accountForGrips ? 2 * kpGrip::Size : 0) - slack;
 
     // We want the selected document rectangle to fill the scroll view.
     //
@@ -448,8 +449,8 @@ void kpMainWindow::zoomToRect(const QRect &normalizedDocRect, bool accountForGri
 
         const QPoint viewPoint = d->mainView->transformDocToView(normalizedDocRect.topLeft());
 
-        d->scrollView->horizontalScrollBar()->setValue(viewPoint.x());
-        d->scrollView->verticalScrollBar()->setValue(viewPoint.y());
+        d->scrollView->horizontalScrollBar()->setValue(d->mainView->x() + viewPoint.x());
+        d->scrollView->verticalScrollBar()->setValue(d->mainView->y() + viewPoint.y());
     }
     zoomToPost();
 }
@@ -478,8 +479,10 @@ void kpMainWindow::slotFitToPage()
 void kpMainWindow::slotFitToWidth()
 {
     if (d->document) {
+        const QPoint visibleTopLeft =
+            d->mainView->mapFrom(d->scrollView->viewport(), d->scrollView->viewport()->rect().topLeft());
         const QRect docRect(0 /*x*/,
-                            static_cast<int>(d->mainView->transformViewToDocY(d->scrollView->verticalScrollBar()->value())) /*maintain y*/,
+                            qMax(0, static_cast<int>(d->mainView->transformViewToDocY(visibleTopLeft.y()))) /*maintain y*/,
                             d->document->width(),
                             1 /*don't care about height*/);
         zoomToRect(docRect, true /*account for grips*/, true /*care about width*/, false /*don't care about height*/);
@@ -492,7 +495,9 @@ void kpMainWindow::slotFitToWidth()
 void kpMainWindow::slotFitToHeight()
 {
     if (d->document) {
-        const QRect docRect(static_cast<int>(d->mainView->transformViewToDocX(d->scrollView->horizontalScrollBar()->value())) /*maintain x*/,
+        const QPoint visibleTopLeft =
+            d->mainView->mapFrom(d->scrollView->viewport(), d->scrollView->viewport()->rect().topLeft());
+        const QRect docRect(qMax(0, static_cast<int>(d->mainView->transformViewToDocX(visibleTopLeft.x()))) /*maintain x*/,
                             0 /*y*/,
                             1 /*don't care about width*/,
                             d->document->height());

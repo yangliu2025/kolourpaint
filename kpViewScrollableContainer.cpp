@@ -20,6 +20,7 @@
 #include "kpLogCategories.h"
 #include <KLocalizedString>
 
+#include "document/kpDocument.h"
 #include "generic/kpModernLook.h"
 #include "generic/kpWidgetMapper.h"
 #include "kpDefs.h"
@@ -97,14 +98,21 @@ kpGrip::GripType kpGrip::type() const
 QCursor kpGrip::cursorForType(GripType type)
 {
     switch (type) {
+    case kpGrip::Top:
     case kpGrip::Bottom:
         return Qt::SizeVerCursor;
 
+    case kpGrip::Left:
     case kpGrip::Right:
         return Qt::SizeHorCursor;
 
+    case kpGrip::TopLeft:
     case kpGrip::BottomRight:
         return Qt::SizeFDiagCursor;
+
+    case kpGrip::TopRight:
+    case kpGrip::BottomLeft:
+        return Qt::SizeBDiagCursor;
     }
 
     return Qt::ArrowCursor;
@@ -223,7 +231,8 @@ QPoint kpGrip::viewDeltaPoint() const
 
     // TODO: this is getting out of sync with m_currentPoint
 
-    return {(m_type & kpGrip::Right) ? point.x() - m_startPoint.x() : 0, (m_type & kpGrip::Bottom) ? point.y() - m_startPoint.y() : 0};
+    return {(m_type & (kpGrip::Left | kpGrip::Right)) ? point.x() - m_startPoint.x() : 0,
+            (m_type & (kpGrip::Top | kpGrip::Bottom)) ? point.y() - m_startPoint.y() : 0};
 }
 
 //---------------------------------------------------------------------
@@ -237,8 +246,8 @@ void kpGrip::mouseMovedTo(const QPoint &point, bool dueToDragScroll)
 
     m_currentPoint = point;
 
-    Q_EMIT continuedDraw(((m_type & kpGrip::Right) ? point.x() - m_startPoint.x() : 0),
-                         ((m_type & kpGrip::Bottom) ? point.y() - m_startPoint.y() : 0),
+    Q_EMIT continuedDraw(((m_type & (kpGrip::Left | kpGrip::Right)) ? point.x() - m_startPoint.x() : 0),
+                         ((m_type & (kpGrip::Top | kpGrip::Bottom)) ? point.y() - m_startPoint.y() : 0),
                          dueToDragScroll);
 }
 
@@ -276,7 +285,7 @@ void kpGrip::mouseReleaseEvent(QMouseEvent *e)
         m_currentPoint = KP_INVALID_POINT;
         m_startPoint = KP_INVALID_POINT;
 
-        Q_EMIT endedDraw((m_type & kpGrip::Right) ? dx : 0, (m_type & kpGrip::Bottom) ? dy : 0);
+        Q_EMIT endedDraw((m_type & (kpGrip::Left | kpGrip::Right)) ? dx : 0, (m_type & (kpGrip::Top | kpGrip::Bottom)) ? dy : 0);
     }
 
     if ((e->buttons() & Qt::MouseButtonMask) == 0) {
@@ -343,9 +352,9 @@ void kpGrip::paintEvent(QPaintEvent *e)
     // Only a small handle in the middle of the edge (or in the corner) is
     // drawn, but the whole strip still reacts to the mouse.
     QRect handle(0, 0, kpGrip::Size, kpGrip::Size);
-    if (m_type == kpGrip::Right) {
+    if (m_type == kpGrip::Left || m_type == kpGrip::Right) {
         handle.moveTop((height() - kpGrip::Size) / 2);
-    } else if (m_type == kpGrip::Bottom) {
+    } else if (m_type == kpGrip::Top || m_type == kpGrip::Bottom) {
         handle.moveLeft((width() - kpGrip::Size) / 2);
     }
 
@@ -372,8 +381,10 @@ kpViewScrollableContainer::kpViewScrollableContainer(QWidget *parent)
     , m_dragScrollTimer(new QTimer(this))
     , m_zoomLevel(100)
     , m_scrollTimerRunOnce(false)
-    , m_resizeRoundedLastViewX(-1)
-    , m_resizeRoundedLastViewY(-1)
+    , m_resizeRoundedLastViewLeft(0)
+    , m_resizeRoundedLastViewTop(0)
+    , m_resizeRoundedLastViewRight(-1)
+    , m_resizeRoundedLastViewBottom(-1)
     , m_resizeRoundedLastViewDX(0)
     , m_resizeRoundedLastViewDY(0)
     , m_haveMovedFromOriginalDocSize(false)
@@ -382,22 +393,28 @@ kpViewScrollableContainer::kpViewScrollableContainer(QWidget *parent)
     // the base widget holding the documents view plus the resize grips
     setWidget(new QWidget(viewport()));
 
-    m_bottomGrip = new kpGrip(kpGrip::Bottom, widget());
+    m_topLeftGrip = new kpGrip(kpGrip::TopLeft, widget());
+    m_topGrip = new kpGrip(kpGrip::Top, widget());
+    m_topRightGrip = new kpGrip(kpGrip::TopRight, widget());
+    m_leftGrip = new kpGrip(kpGrip::Left, widget());
     m_rightGrip = new kpGrip(kpGrip::Right, widget());
+    m_bottomLeftGrip = new kpGrip(kpGrip::BottomLeft, widget());
+    m_bottomGrip = new kpGrip(kpGrip::Bottom, widget());
     m_bottomRightGrip = new kpGrip(kpGrip::BottomRight, widget());
 
+    m_topLeftGrip->setObjectName(QStringLiteral("TopLeft Grip"));
+    m_topGrip->setObjectName(QStringLiteral("Top Grip"));
+    m_topRightGrip->setObjectName(QStringLiteral("TopRight Grip"));
+    m_leftGrip->setObjectName(QStringLiteral("Left Grip"));
     m_bottomGrip->setObjectName(QStringLiteral("Bottom Grip"));
     m_rightGrip->setObjectName(QStringLiteral("Right Grip"));
+    m_bottomLeftGrip->setObjectName(QStringLiteral("BottomLeft Grip"));
     m_bottomRightGrip->setObjectName(QStringLiteral("BottomRight Grip"));
 
-    m_bottomGrip->hide();
-    connectGripSignals(m_bottomGrip);
-
-    m_rightGrip->hide();
-    connectGripSignals(m_rightGrip);
-
-    m_bottomRightGrip->hide();
-    connectGripSignals(m_bottomRightGrip);
+    for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
+        grip->hide();
+        connectGripSignals(grip);
+    }
 
     connect(horizontalScrollBar(), &QScrollBar::valueChanged, this, &kpViewScrollableContainer::slotContentsMoved);
 
@@ -463,9 +480,9 @@ void kpViewScrollableContainer::clearStatusMessage()
 #if DEBUG_KP_VIEW_SCROLLABLE_CONTAINER && 1
     qCDebug(kpLogMisc) << "kpViewScrollableContainer::clearStatusMessage()";
 #endif
-    m_bottomRightGrip->setUserMessage(QString());
-    m_bottomGrip->setUserMessage(QString());
-    m_rightGrip->setUserMessage(QString());
+    for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
+        grip->setUserMessage(QString());
+    }
 }
 
 //---------------------------------------------------------------------
@@ -481,10 +498,25 @@ QSize kpViewScrollableContainer::newDocSize(int viewDX, int viewDY) const
         return {};
     }
 
-    const int docX = static_cast<int>(m_view->transformViewToDocX(m_view->width() + viewDX));
-    const int docY = static_cast<int>(m_view->transformViewToDocY(m_view->height() + viewDY));
+    const auto type = docResizingGrip()->type();
+    const int targetWidth = m_view->width() + ((type & kpGrip::Left) ? -viewDX : (type & kpGrip::Right) ? viewDX : 0);
+    const int targetHeight = m_view->height() + ((type & kpGrip::Top) ? -viewDY : (type & kpGrip::Bottom) ? viewDY : 0);
+    const int docX = static_cast<int>(m_view->transformViewToDocX(targetWidth));
+    const int docY = static_cast<int>(m_view->transformViewToDocY(targetHeight));
 
     return {qMax(1, docX), qMax(1, docY)};
+}
+
+QPoint kpViewScrollableContainer::newDocOffset(int viewDX, int viewDY) const
+{
+    const QSize size = newDocSize(viewDX, viewDY);
+    if (!m_view || !docResizingGrip() || !size.isValid()) {
+        return {};
+    }
+
+    const auto type = docResizingGrip()->type();
+    return {(type & kpGrip::Left) ? m_view->document()->width() - size.width() : 0,
+            (type & kpGrip::Top) ? m_view->document()->height() - size.height() : 0};
 }
 
 //---------------------------------------------------------------------
@@ -492,14 +524,12 @@ QSize kpViewScrollableContainer::newDocSize(int viewDX, int viewDY) const
 // protected
 void kpViewScrollableContainer::calculateDocResizingGrip()
 {
-    if (m_bottomRightGrip->isDrawing()) {
-        m_docResizingGrip = m_bottomRightGrip;
-    } else if (m_bottomGrip->isDrawing()) {
-        m_docResizingGrip = m_bottomGrip;
-    } else if (m_rightGrip->isDrawing()) {
-        m_docResizingGrip = m_rightGrip;
-    } else {
-        m_docResizingGrip = nullptr;
+    m_docResizingGrip = nullptr;
+    for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
+        if (grip->isDrawing()) {
+            m_docResizingGrip = grip;
+            break;
+        }
     }
 }
 
@@ -514,7 +544,7 @@ kpGrip *kpViewScrollableContainer::docResizingGrip() const
 //---------------------------------------------------------------------
 
 // protected
-int kpViewScrollableContainer::bottomResizeLineWidth() const
+int kpViewScrollableContainer::leftResizeLineWidth() const
 {
     if (!docResizingGrip()) {
         return -1;
@@ -524,8 +554,8 @@ int kpViewScrollableContainer::bottomResizeLineWidth() const
         return -1;
     }
 
-    if (docResizingGrip()->type() & kpGrip::Bottom) {
-        return qMax(m_view->zoomLevelY() / 100, 1);
+    if (docResizingGrip()->type() & kpGrip::Left) {
+        return qMax(m_view->zoomLevelX() / 100, 1);
     }
 
     return 1;
@@ -554,18 +584,38 @@ int kpViewScrollableContainer::rightResizeLineWidth() const
 //---------------------------------------------------------------------
 
 // protected
-QRect kpViewScrollableContainer::bottomResizeLineRect() const
+int kpViewScrollableContainer::topResizeLineWidth() const
 {
-    if (m_resizeRoundedLastViewX < 0 || m_resizeRoundedLastViewY < 0) {
+    if (!docResizingGrip() || !m_view) {
+        return -1;
+    }
+
+    return (docResizingGrip()->type() & kpGrip::Top) ? qMax(m_view->zoomLevelY() / 100, 1) : 1;
+}
+
+//---------------------------------------------------------------------
+
+// protected
+int kpViewScrollableContainer::bottomResizeLineWidth() const
+{
+    if (!docResizingGrip() || !m_view) {
+        return -1;
+    }
+
+    return (docResizingGrip()->type() & kpGrip::Bottom) ? qMax(m_view->zoomLevelY() / 100, 1) : 1;
+}
+
+//---------------------------------------------------------------------
+
+// protected
+QRect kpViewScrollableContainer::leftResizeLineRect() const
+{
+    if (m_resizeRoundedLastViewRight < 0 || m_resizeRoundedLastViewBottom < 0) {
         return {};
     }
 
-    // (the view's position in the viewport is not just the scroll offset
-    //  when the modern look centers the view)
-    const QRect visibleArea(-widget()->pos(), viewport()->size());
-
-    return QRect(QPoint(0, m_resizeRoundedLastViewY), QPoint(m_resizeRoundedLastViewX - 1, m_resizeRoundedLastViewY + bottomResizeLineWidth() - 1))
-        .intersected(visibleArea);
+    return {m_resizeRoundedLastViewLeft, m_resizeRoundedLastViewTop, leftResizeLineWidth(),
+            m_resizeRoundedLastViewBottom - m_resizeRoundedLastViewTop};
 }
 
 //---------------------------------------------------------------------
@@ -573,34 +623,38 @@ QRect kpViewScrollableContainer::bottomResizeLineRect() const
 // protected
 QRect kpViewScrollableContainer::rightResizeLineRect() const
 {
-    if (m_resizeRoundedLastViewX < 0 || m_resizeRoundedLastViewY < 0) {
+    if (m_resizeRoundedLastViewRight < 0 || m_resizeRoundedLastViewBottom < 0) {
         return {};
     }
 
-    // (the view's position in the viewport is not just the scroll offset
-    //  when the modern look centers the view)
-    const QRect visibleArea(-widget()->pos(), viewport()->size());
-
-    return QRect(QPoint(m_resizeRoundedLastViewX, 0), QPoint(m_resizeRoundedLastViewX + rightResizeLineWidth() - 1, m_resizeRoundedLastViewY - 1))
-        .intersected(visibleArea);
+    return {m_resizeRoundedLastViewRight, m_resizeRoundedLastViewTop, rightResizeLineWidth(),
+            m_resizeRoundedLastViewBottom - m_resizeRoundedLastViewTop};
 }
 
 //---------------------------------------------------------------------
 
 // protected
-QRect kpViewScrollableContainer::bottomRightResizeLineRect() const
+QRect kpViewScrollableContainer::topResizeLineRect() const
 {
-    if (m_resizeRoundedLastViewX < 0 || m_resizeRoundedLastViewY < 0) {
+    if (m_resizeRoundedLastViewRight < 0 || m_resizeRoundedLastViewBottom < 0) {
         return {};
     }
 
-    // (the view's position in the viewport is not just the scroll offset
-    //  when the modern look centers the view)
-    const QRect visibleArea(-widget()->pos(), viewport()->size());
+    return {m_resizeRoundedLastViewLeft, m_resizeRoundedLastViewTop,
+            m_resizeRoundedLastViewRight - m_resizeRoundedLastViewLeft, topResizeLineWidth()};
+}
 
-    return QRect(QPoint(m_resizeRoundedLastViewX, m_resizeRoundedLastViewY),
-                 QPoint(m_resizeRoundedLastViewX + rightResizeLineWidth() - 1, m_resizeRoundedLastViewY + bottomResizeLineWidth() - 1))
-        .intersected(visibleArea);
+//---------------------------------------------------------------------
+
+// protected
+QRect kpViewScrollableContainer::bottomResizeLineRect() const
+{
+    if (m_resizeRoundedLastViewRight < 0 || m_resizeRoundedLastViewBottom < 0) {
+        return {};
+    }
+
+    return {m_resizeRoundedLastViewLeft, m_resizeRoundedLastViewBottom,
+            m_resizeRoundedLastViewRight - m_resizeRoundedLastViewLeft, bottomResizeLineWidth()};
 }
 
 //---------------------------------------------------------------------
@@ -614,7 +668,7 @@ QRect kpViewScrollableContainer::mapViewToViewport(const QRect &viewRect)
 
     // The overlay is a child of the viewport, placed at viewport()->pos().
     QRect ret = viewRect;
-    ret.translate(widget()->pos() - viewport()->pos());
+    ret.translate(widget()->pos() + m_view->pos() - viewport()->pos());
     return ret;
 }
 
@@ -628,52 +682,60 @@ void kpViewScrollableContainer::drawResizeLines()
     QPainter p(m_overlay);
     p.setBackground(QPixmap(stipple));
 
-    const QRect rightRect = rightResizeLineRect();
-    if (rightRect.isValid()) {
-        QRect rect = mapViewToViewport(rightRect);
-        p.setBrushOrigin(rect.x(), rect.y());
-        p.eraseRect(rect);
-    }
-
-    const QRect bottomRect = bottomResizeLineRect();
-    if (bottomRect.isValid()) {
-        QRect rect = mapViewToViewport(bottomRect);
-        p.setBrushOrigin(rect.x(), rect.y());
-        p.eraseRect(rect);
-    }
-
-    const QRect bottomRightRect = bottomRightResizeLineRect();
-    if (bottomRightRect.isValid()) {
-        QRect rect = mapViewToViewport(bottomRightRect);
-        p.setBrushOrigin(rect.x(), rect.y());
-        p.eraseRect(rect);
+    for (const QRect &lineRect : {leftResizeLineRect(), topResizeLineRect(), rightResizeLineRect(), bottomResizeLineRect()}) {
+        if (lineRect.isValid()) {
+            QRect rect = mapViewToViewport(lineRect);
+            p.setBrushOrigin(rect.x(), rect.y());
+            p.eraseRect(rect);
+        }
     }
 }
 
 //---------------------------------------------------------------------
 
 // protected
-void kpViewScrollableContainer::updateResizeLines(int viewX, int viewY, int viewDX, int viewDY)
+void kpViewScrollableContainer::updateResizeLines(int viewDX, int viewDY)
 {
 #if DEBUG_KP_VIEW_SCROLLABLE_CONTAINER && 0
-    qCDebug(kpLogMisc) << "kpViewScrollableContainer::updateResizeLines(" << viewX << "," << viewY << ")"
-                       << " oldViewX=" << m_resizeRoundedLastViewX << " oldViewY=" << m_resizeRoundedLastViewY << " viewDX=" << viewDX << " viewDY=" << viewDY;
+    qCDebug(kpLogMisc) << "kpViewScrollableContainer::updateResizeLines()"
+                       << " viewDX=" << viewDX << " viewDY=" << viewDY;
 #endif
 
-    if (viewX >= 0 && viewY >= 0) {
-        m_resizeRoundedLastViewX = static_cast<int>(m_view->transformDocToViewX(m_view->transformViewToDocX(viewX)));
+    if (m_view && docResizingGrip()) {
+        const QSize size = newDocSize(viewDX, viewDY);
+        const QPoint offset = newDocOffset(viewDX, viewDY);
+        const int viewOriginX = static_cast<int>(m_view->transformDocToViewX(0));
+        const int viewOriginY = static_cast<int>(m_view->transformDocToViewY(0));
 
-        m_resizeRoundedLastViewY = static_cast<int>(m_view->transformDocToViewY(m_view->transformViewToDocY(viewY)));
-
+        m_resizeRoundedLastViewLeft = viewOriginX - (static_cast<int>(m_view->transformDocToViewX(offset.x())) - viewOriginX);
+        m_resizeRoundedLastViewTop = viewOriginY - (static_cast<int>(m_view->transformDocToViewY(offset.y())) - viewOriginY);
+        m_resizeRoundedLastViewRight =
+            m_resizeRoundedLastViewLeft + (static_cast<int>(m_view->transformDocToViewX(size.width())) - viewOriginX);
+        m_resizeRoundedLastViewBottom =
+            m_resizeRoundedLastViewTop + (static_cast<int>(m_view->transformDocToViewY(size.height())) - viewOriginY);
         m_resizeRoundedLastViewDX = viewDX;
         m_resizeRoundedLastViewDY = viewDY;
     } else {
-        m_resizeRoundedLastViewX = -1;
-        m_resizeRoundedLastViewY = -1;
+        m_resizeRoundedLastViewLeft = 0;
+        m_resizeRoundedLastViewTop = 0;
+        m_resizeRoundedLastViewRight = -1;
+        m_resizeRoundedLastViewBottom = -1;
 
         m_resizeRoundedLastViewDX = 0;
         m_resizeRoundedLastViewDY = 0;
     }
+
+    m_overlay->update();
+}
+
+void kpViewScrollableContainer::clearResizeLines()
+{
+    m_resizeRoundedLastViewLeft = 0;
+    m_resizeRoundedLastViewTop = 0;
+    m_resizeRoundedLastViewRight = -1;
+    m_resizeRoundedLastViewBottom = -1;
+    m_resizeRoundedLastViewDX = 0;
+    m_resizeRoundedLastViewDY = 0;
 
     m_overlay->update();
 }
@@ -696,7 +758,7 @@ void kpViewScrollableContainer::slotGripBeganDraw()
 
     m_haveMovedFromOriginalDocSize = false;
 
-    updateResizeLines(m_view->width(), m_view->height(), 0 /*viewDX*/, 0 /*viewDY*/);
+    updateResizeLines(0 /*viewDX*/, 0 /*viewDY*/);
 
     Q_EMIT beganDocResize();
 }
@@ -728,10 +790,7 @@ void kpViewScrollableContainer::slotGripContinuedDraw(int inViewDX, int inViewDY
 
     m_haveMovedFromOriginalDocSize = true;
 
-    updateResizeLines(qMax(1, qMax(m_view->width() + viewDX, static_cast<int>(m_view->transformDocToViewX(1)))),
-                      qMax(1, qMax(m_view->height() + viewDY, static_cast<int>(m_view->transformDocToViewY(1)))),
-                      viewDX,
-                      viewDY);
+    updateResizeLines(viewDX, viewDY);
 
     Q_EMIT continuedDocResize(newDocSize());
 }
@@ -743,7 +802,7 @@ void kpViewScrollableContainer::slotGripCancelledDraw()
 {
     m_haveMovedFromOriginalDocSize = false;
 
-    updateResizeLines(-1, -1, 0, 0);
+    clearResizeLines();
 
     calculateDocResizingGrip();
 
@@ -768,15 +827,16 @@ void kpViewScrollableContainer::slotGripEndedDraw(int viewDX, int viewDY)
     }
 
     const QSize newSize = newDocSize(viewDX, viewDY);
+    const QPoint oldImageOffset = newDocOffset(viewDX, viewDY);
 
     m_haveMovedFromOriginalDocSize = false;
 
     // must erase lines before view size changes
-    updateResizeLines(-1, -1, 0, 0);
+    clearResizeLines();
 
     calculateDocResizingGrip();
 
-    Q_EMIT endedDocResize(newSize);
+    Q_EMIT endedDocResize(newSize, oldImageOffset);
 
     endDragScroll();
 
@@ -813,13 +873,15 @@ void kpViewScrollableContainer::recalculateStatusMessage()
     //       grip.
     //
     if (kpWidgetMapper::toGlobal(this, QRect(0, 0, viewport()->width(), viewport()->height())).contains(QCursor::pos())) {
-        if (m_bottomRightGrip->containsCursor()) {
-            m_bottomRightGrip->setUserMessage(i18n("Left drag the handle to resize the image."));
-        } else if (m_bottomGrip->containsCursor()) {
-            m_bottomGrip->setUserMessage(i18n("Left drag the handle to resize the image."));
-        } else if (m_rightGrip->containsCursor()) {
-            m_rightGrip->setUserMessage(i18n("Left drag the handle to resize the image."));
-        } else {
+        bool overGrip = false;
+        for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
+            if (grip->containsCursor()) {
+                grip->setUserMessage(i18n("Left drag the handle to resize the image."));
+                overGrip = true;
+                break;
+            }
+        }
+        if (!overGrip) {
             clearStatusMessage();
         }
     } else {
@@ -904,22 +966,29 @@ void kpViewScrollableContainer::setView(kpView *view)
 void kpViewScrollableContainer::updateGrips()
 {
     if (m_view) {
-        widget()->resize(m_view->size() + m_bottomRightGrip->size());
+        const int gripSize = kpGrip::Size;
+        widget()->resize(m_view->width() + (2 * gripSize), m_view->height() + (2 * gripSize));
+        m_view->move(gripSize, gripSize);
 
-        // to make the grip more easily "touchable" make it as high as the view
-        m_rightGrip->setFixedHeight(m_view->height());
-        m_rightGrip->move(m_view->width(), 0);
+        m_topLeftGrip->move(0, 0);
+        m_topRightGrip->move(gripSize + m_view->width(), 0);
+        m_bottomLeftGrip->move(0, gripSize + m_view->height());
+        m_bottomRightGrip->move(gripSize + m_view->width(), gripSize + m_view->height());
 
-        // to make the grip more easily "touchable" make it as wide as the view
+        m_topGrip->setFixedWidth(m_view->width());
+        m_topGrip->move(gripSize, 0);
         m_bottomGrip->setFixedWidth(m_view->width());
-        m_bottomGrip->move(0, m_view->height());
+        m_bottomGrip->move(gripSize, gripSize + m_view->height());
 
-        m_bottomRightGrip->move(m_view->width(), m_view->height());
+        m_leftGrip->setFixedHeight(m_view->height());
+        m_leftGrip->move(0, gripSize);
+        m_rightGrip->setFixedHeight(m_view->height());
+        m_rightGrip->move(gripSize + m_view->width(), gripSize);
     }
 
-    m_bottomGrip->setHidden(m_view == nullptr);
-    m_rightGrip->setHidden(m_view == nullptr);
-    m_bottomRightGrip->setHidden(m_view == nullptr);
+    for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
+        grip->setHidden(m_view == nullptr);
+    }
 
     // The canvas shadow lies outside of widget(), so moving or resizing
     // widget() alone leaves the old shadow behind.
@@ -1066,6 +1135,7 @@ bool kpViewScrollableContainer::slotDragScroll(bool *didSomething)
         if (scrolled) {
             QRegion region = QRect(horizontalScrollBar()->value(), verticalScrollBar()->value(), viewport()->width(), viewport()->height());
             region -= QRect(oldContentsX, oldContentsY, viewport()->width(), viewport()->height());
+            region.translate(-m_view->pos());
 
             // Repaint newly exposed region immediately to reduce tearing
             // of scrollView.
@@ -1131,7 +1201,7 @@ void kpViewScrollableContainer::applyLook()
     // Let paintEvent()'s workspace and canvas shadow show through around
     // the view and between the grip handles.
     widget()->setAutoFillBackground(!modern);
-    for (kpGrip *grip : {m_bottomGrip, m_rightGrip, m_bottomRightGrip}) {
+    for (kpGrip *grip : {m_topLeftGrip, m_topGrip, m_topRightGrip, m_leftGrip, m_rightGrip, m_bottomLeftGrip, m_bottomGrip, m_bottomRightGrip}) {
         grip->setAutoFillBackground(!modern);
         grip->update();
     }

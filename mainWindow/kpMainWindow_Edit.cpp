@@ -255,9 +255,10 @@ QRect kpMainWindow::calcUsefulPasteRect(int imageWidth, int imageHeight)
     // TODO: 1st choice is to paste sel near but not overlapping last deselect point
 
     if (d->mainView && d->scrollView) {
-        const QPoint viewTopLeft(d->scrollView->horizontalScrollBar()->value(), d->scrollView->verticalScrollBar()->value());
+        const QPoint viewTopLeft =
+            d->mainView->mapFrom(d->scrollView->viewport(), QPoint(0, 0));
 
-        const QPoint docTopLeft = d->mainView->transformViewToDoc(viewTopLeft);
+        const QPoint docTopLeft = d->mainView->transformViewToDoc(QPoint(qMax(0, viewTopLeft.x()), qMax(0, viewTopLeft.y())));
 
         if ((docTopLeft.x() + imageWidth <= d->document->width() && docTopLeft.y() + imageHeight <= d->document->height()) || imageWidth <= docTopLeft.x()
             || imageHeight <= docTopLeft.y()) {

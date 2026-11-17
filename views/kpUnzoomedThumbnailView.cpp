@@ -65,8 +65,9 @@ void kpUnzoomedThumbnailView::adjustToEnvironment()
         return;
     }
 
-    const int scrollViewContentsX = buddyViewScrollableContainer()->horizontalScrollBar()->value();
-    const int scrollViewContentsY = buddyViewScrollableContainer()->verticalScrollBar()->value();
+    const QPoint visibleTopLeft = buddyView()->mapFrom(buddyViewScrollableContainer()->viewport(), QPoint(0, 0));
+    const int scrollViewContentsX = qMax(0, visibleTopLeft.x());
+    const int scrollViewContentsY = qMax(0, visibleTopLeft.y());
 
 #if DEBUG_KP_UNZOOMED_THUMBNAIL_VIEW
     qCDebug(kpLogViews) << "kpUnzoomedThumbnailView(" << name() << ")::adjustToEnvironment(" << scrollViewContentsX << "," << scrollViewContentsY
@@ -118,10 +119,10 @@ void kpUnzoomedThumbnailView::adjustToEnvironment()
         return;
     }
 
-    QRect docRect = buddyView()->transformViewToDoc(QRect(buddyViewScrollableContainer()->horizontalScrollBar()->value(),
-                                                          buddyViewScrollableContainer()->verticalScrollBar()->value(),
-                                                          qMin(buddyView()->width(), buddyViewScrollableContainer()->viewport()->width()),
-                                                          qMin(buddyView()->height(), buddyViewScrollableContainer()->viewport()->height())));
+    QRect docRect = buddyView()->transformViewToDoc(
+        QRect(QPoint(scrollViewContentsX, scrollViewContentsY),
+              QSize(qMin(buddyView()->width(), buddyViewScrollableContainer()->viewport()->width()),
+                    qMin(buddyView()->height(), buddyViewScrollableContainer()->viewport()->height()))));
 
     x = docRect.x() - (width() - docRect.width()) / 2;
     qCDebug(kpLogViews) << "\tnew suggest x=" << x;

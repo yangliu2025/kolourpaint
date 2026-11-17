@@ -20,6 +20,7 @@
 #include "pixmapfx/kpPixmapFX.h"
 
 #include <QApplication>
+#include <QPainter>
 #include <QPoint>
 #include <QPolygon>
 #include <QRect>
@@ -32,15 +33,18 @@
 
 //--------------------------------------------------------------------------------
 
-kpTransformResizeScaleCommand::kpTransformResizeScaleCommand(bool actOnSelection, int newWidth, int newHeight, Type type, kpCommandEnvironment *environ)
+kpTransformResizeScaleCommand::kpTransformResizeScaleCommand(
+    bool actOnSelection, int newWidth, int newHeight, Type type, kpCommandEnvironment *environ, const QPoint &oldImageOffset)
     : kpCommand(environ)
     , m_actOnSelection(actOnSelection)
     , m_type(type)
     , m_backgroundColor(environ->backgroundColor())
+    , m_oldImageOffset(oldImageOffset)
     , m_oldSelectionPtr(nullptr)
 {
     kpDocument *doc = document();
     Q_ASSERT(doc);
+    Q_ASSERT(m_oldImageOffset.isNull() || (!m_actOnSelection && m_type == Resize));
 
     m_oldWidth = doc->width(m_actOnSelection);
     m_oldHeight = doc->height(m_actOnSelection);
@@ -215,15 +219,35 @@ void kpTransformResizeScaleCommand::execute()
         } else {
             QApplication::setOverrideCursor(Qt::WaitCursor);
 
-            if (m_newWidth < m_oldWidth) {
-                m_oldRightImage = document()->getImageAt(QRect(m_newWidth, 0, m_oldWidth - m_newWidth, m_oldHeight));
-            }
+            if (!m_oldImageOffset.isNull()) {
+                m_oldImage = document()->image();
+                if (!m_oldSelectionPtr && document()->selection()) {
+                    m_oldSelectionPtr = document()->selection()->clone();
+                }
 
-            if (m_newHeight < m_oldHeight) {
-                m_oldBottomImage = document()->getImageAt(QRect(0, m_newHeight, m_newWidth, m_oldHeight - m_newHeight));
-            }
+                kpImage newImage(m_newWidth, m_newHeight, QImage::Format_ARGB32_Premultiplied);
+                newImage.fill(m_backgroundColor.toQRgb());
+                QPainter painter(&newImage);
+                painter.setCompositionMode(QPainter::CompositionMode_Source);
+                painter.drawImage(m_oldImageOffset, m_oldImage);
+                painter.end();
 
-            document()->resize(m_newWidth, m_newHeight, m_backgroundColor);
+                document()->setImage(newImage);
+
+                if (document()->selection()) {
+                    document()->selection()->moveBy(m_oldImageOffset.x(), m_oldImageOffset.y());
+                }
+            } else {
+                if (m_newWidth < m_oldWidth) {
+                    m_oldRightImage = document()->getImageAt(QRect(m_newWidth, 0, m_oldWidth - m_newWidth, m_oldHeight));
+                }
+
+                if (m_newHeight < m_oldHeight) {
+                    m_oldBottomImage = document()->getImageAt(QRect(0, m_newHeight, m_newWidth, m_oldHeight - m_newHeight));
+                }
+
+                document()->resize(m_newWidth, m_newHeight, m_backgroundColor);
+            }
 
             QApplication::restoreOverrideCursor();
         }
@@ -311,6 +335,16 @@ void kpTransformResizeScaleCommand::unexecute()
             QApplication::restoreOverrideCursor();
         } else {
             QApplication::setOverrideCursor(Qt::WaitCursor);
+
+            if (!m_oldImageOffset.isNull()) {
+                doc->setImage(m_oldImage);
+                if (m_oldSelectionPtr) {
+                    doc->setSelection(*m_oldSelectionPtr);
+                }
+
+                QApplication::restoreOverrideCursor();
+                return;
+            }
 
             kpImage newImage(m_oldWidth, m_oldHeight, QImage::Format_ARGB32_Premultiplied);
 
