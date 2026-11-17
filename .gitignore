@@ -21,6 +21,7 @@ random_seed
 CMakeLists.txt.user*
 *.unc-backup*
 .cmake/
+obj-x86_64-linux-gnu/
 
 # LSP & IDE
 /compile_commands.json
