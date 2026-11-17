@@ -515,8 +515,11 @@ QPoint kpViewScrollableContainer::newDocOffset(int viewDX, int viewDY) const
     }
 
     const auto type = docResizingGrip()->type();
-    return {(type & kpGrip::Left) ? m_view->document()->width() - size.width() : 0,
-            (type & kpGrip::Top) ? m_view->document()->height() - size.height() : 0};
+    // This is where the old image origin lands inside the resized canvas.
+    // Dragging the left/top edge inwards therefore requires a negative
+    // offset, while dragging it outwards requires a positive offset.
+    return {(type & kpGrip::Left) ? size.width() - m_view->document()->width() : 0,
+            (type & kpGrip::Top) ? size.height() - m_view->document()->height() : 0};
 }
 
 //---------------------------------------------------------------------
